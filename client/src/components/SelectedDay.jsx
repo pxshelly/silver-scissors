@@ -1,8 +1,13 @@
-import React from 'react'; 
+import React from 'react';
+import AddAppointment from './AddAppointment.jsx';
 
 class SelectedDay extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      addAppointment: false
+    }
+    this.handleClick = this.handleClick.bind(this);
   }
 
   timesOfDay() {
@@ -19,16 +24,20 @@ class SelectedDay extends React.Component {
     return [...am, ...pm];
   }
 
+  handleClick() {
+    this.setState({addAppointment: !this.state.addAppointment})
+  }
   render() {
     return (
       <div>
+        <button onClick={() => this.handleClick()}>Add Appointment</button>
         <h2>{this.props.day}</h2>
         <ul>
           {this.timesOfDay()}
         </ul>
+        <AddAppointment state={this.state.addAppointment}/>
       </div>
     )
-
   }
 }
 
