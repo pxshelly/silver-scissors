@@ -6,20 +6,18 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentMonthAndYear: moment().format('MMMM YYYY'),
-      selectMonth: false,
-      currentMonth: moment().month()+1,
+      year: moment().year(),
+      month: moment().format('MMMM'),
       firstDayOfMonth: moment().startOf('month').format('d'),
       daysInMonth: moment().daysInMonth(),
       counter: 0,
       isDateSelected: false,
       selectedDate: 'Select a date'
     };
-    // this.selectMonth = this.selectMonth.bind(this);
     this.loadCalendar = this.loadCalendar.bind(this);
     this.lastMonth = this.lastMonth.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
-    this.selectedDate = this.selectedDate.bind(this);
+    this.selectDate = this.selectDate.bind(this);
   }
 
   getWeekdays() {
@@ -32,8 +30,7 @@ class Calendar extends React.Component {
   lastMonth() {
     this.setState({
       counter: this.state.counter++,
-      currentMonth: this.state.currentMonth--,
-      currentMonthAndYear: moment().subtract(this.state.counter, 'month').format('MMMM YYYY'),
+      month: moment().subtract(this.state.counter, 'month').format('MMMM'),
       firstDayOfMonth: moment().subtract(this.state.counter, 'month').startOf('month').format('d'),
       daysInMonth: moment().subtract(this.state.counter, 'month').daysInMonth()
     })
@@ -43,15 +40,14 @@ class Calendar extends React.Component {
   nextMonth() {
     this.setState({
       counter: this.state.counter++,
-      currentMonth: this.state.currentMonth++,
-      currentMonthAndYear: moment().add(this.state.counter, 'month').format('MMMM YYYY'),
+      month: moment().add(this.state.counter, 'month').format('MMMM'),
       firstDayOfMonth: moment().add(this.state.counter, 'month').startOf('month').format('d'),
       daysInMonth: moment().add(this.state.counter, 'month').daysInMonth()
     })
     this.loadCalendar();
   }
 
-  selectedDate(e) {
+  selectDate(e) {
     this.setState({
       isDateSelected: true,
       selectedDate: e.target.innerText})
@@ -67,7 +63,7 @@ class Calendar extends React.Component {
     // create td tags for each day in month
     const allDays = []
     for (let i = 1; i <= this.state.daysInMonth; i++) {
-      allDays.push(<td key={i} onClick={(e) => this.selectedDate(e)}><span>{i}</span></td>)
+      allDays.push(<td key={i} onClick={(e) => this.selectDate(e)}><span>{i}</span></td>)
     }
 
     // combine blank spaces with number of days and create rows for each week
@@ -95,39 +91,24 @@ class Calendar extends React.Component {
     return weeks;
   }
 
-  // selectMonth() {
-  //   this.setState({selectMonth: !this.state.selectMonth});
-  //   const months = moment.months().map((month) => {
-  //     return <div key={month}>{month}</div>
-  //   })
-  //   console.log(months);
-  //   if (this.state.selectMonth) {
-  //     return (
-  //       <div>
-  //         {months}
-  //       </div>
-  //     )
-  //   }
-  // }
-
   render() {
     return (
       <div className='calendar-container'>
         <table>
           <thead>
             <tr>
-              <th>{this.state.currentYear}</th>
+              <th>{this.state.year}</th>
             </tr>
             <tr>
               <td onClick={() => this.lastMonth()}>Last Month</td>
-              <th onClick={() => this.selectMonth()}>{this.state.currentMonthAndYear}</th>
+              <th onClick={() => this.selectMonth()}>{this.state.month}</th>
               <td onClick={() => this.nextMonth()}>Next Month</td>
             </tr>
             <tr>{this.getWeekdays()}</tr>
           </thead>
           <tbody>{this.loadCalendar()}</tbody>
         </table>
-        <SelectedDate date={this.state.selectedDate} isDateSelected={this.state.isDateSelected}/>
+        <SelectedDate date={this.state.selectedDate} isDateSelected={this.state.isDateSelected} year={this.state.year} month={this.state.month}/>
       </div>
     )
   }

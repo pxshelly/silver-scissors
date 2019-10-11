@@ -33,7 +33,7 @@ class SelectedDate extends React.Component {
       return (
         <div>
           <button onClick={() => this.handleClick()}>Add Appointment</button>
-          <h2>{this.props.day}</h2>
+          <h2>{this.props.month} {this.props.date}, {this.props.year}</h2>
           <ul>
             {this.timesOfDay()}
           </ul>
