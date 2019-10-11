@@ -1,5 +1,4 @@
 import React from 'react'; 
-{/* <li key={i}>{`${i}:00`}</li> */}
 
 class SelectedDay extends React.Component {
   constructor(props) {
