@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import SelectedDay from './SelectedDay.jsx';
+import SelectedDate from './SelectedDate.jsx';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -12,13 +12,14 @@ class Calendar extends React.Component {
       firstDayOfMonth: moment().startOf('month').format('d'),
       daysInMonth: moment().daysInMonth(),
       counter: 0,
-      selectedDay: 'Select a date'
+      isDateSelected: false,
+      selectedDate: 'Select a date'
     };
     // this.selectMonth = this.selectMonth.bind(this);
     this.loadCalendar = this.loadCalendar.bind(this);
     this.lastMonth = this.lastMonth.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
-    this.selectDay = this.selectDay.bind(this);
+    this.selectedDate = this.selectedDate.bind(this);
   }
 
   getWeekdays() {
@@ -50,8 +51,10 @@ class Calendar extends React.Component {
     this.loadCalendar();
   }
 
-  selectDay(e) {
-    this.setState({selectedDay: e.target.innerText})
+  selectedDate(e) {
+    this.setState({
+      isDateSelected: true,
+      selectedDate: e.target.innerText})
   }
 
   loadCalendar() {
@@ -64,7 +67,7 @@ class Calendar extends React.Component {
     // create td tags for each day in month
     const allDays = []
     for (let i = 1; i <= this.state.daysInMonth; i++) {
-      allDays.push(<td key={i} onClick={(e) => this.selectDay(e)}><span>{i}</span></td>)
+      allDays.push(<td key={i} onClick={(e) => this.selectedDate(e)}><span>{i}</span></td>)
     }
 
     // combine blank spaces with number of days and create rows for each week
@@ -124,7 +127,7 @@ class Calendar extends React.Component {
           </thead>
           <tbody>{this.loadCalendar()}</tbody>
         </table>
-        <SelectedDay day={this.state.selectedDay}/>
+        <SelectedDate date={this.state.selectedDate} isDateSelected={this.state.isDateSelected}/>
       </div>
     )
   }
