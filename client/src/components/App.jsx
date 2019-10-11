@@ -1,7 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom'
+import Routes from './Routes.jsx';
 import Header from './Header.jsx';
-import Calendar from './Calendar.jsx';
-import AddAppointment from './AddAppointment.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,10 +10,26 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Header />
-        <Calendar />
-      </div>
+      <Router>
+          <Header />
+          <nav>
+            <ul>
+              <li>
+                <Link to='/services'>Services</Link>
+              </li>
+              <li>
+                <Link to='/calendar'>Calendar</Link>
+              </li>
+              <li>
+                <Link to='/visitus'>Visit Us</Link>
+              </li>
+              <li>
+                <Link to='/appointments'>Request an Appointment</Link>
+              </li>
+            </ul>
+            <Routes />
+          </nav>
+      </Router>
     );
   }
 }
