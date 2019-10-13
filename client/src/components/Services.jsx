@@ -2,7 +2,7 @@ import React from 'react';
 
 function services() {
   return(
-    <div>
+    <div className='services-container'>
       <table>
         <thead>
           <tr>
