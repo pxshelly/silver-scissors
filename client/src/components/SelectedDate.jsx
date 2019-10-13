@@ -16,27 +16,26 @@ class SelectedDate extends React.Component {
       times.push(i);
     }
     const am = times.map((time, i) => {
-      return <li key={i+1}>{`${time}:00 AM`}</li>;
+      return <li className='times' key={i+1}>{`${time}:00 AM`}</li>;
     })
     const pm = times.map((time, i) => {
-      return <li key={i*13}>{`${time}:00 PM`}</li>;
+      return <li className='times' key={i*13}>{`${time}:00 PM`}</li>;
     })
     return [...am, ...pm];
   }
 
   handleClick() {
     this.setState({addAppointment: !this.state.addAppointment});
-
   }
   
   render() {
     if (this.props.isDateSelected) {
       return (
         <div>
-          <button onClick={() => this.handleClick()}>Add Appointment</button>
+          <button className='add-appointment-button' onClick={() => this.handleClick()}>Add Appointment</button>
           <AddAppointment state={this.state.addAppointment}/>
-          <h2>{this.props.month} {this.props.date}, {this.props.year}</h2>
-          <ul>
+          <h2 className='times-header'>{this.props.month} {this.props.date}, {this.props.year}</h2>
+          <ul className='times-container'>
             {this.timesOfDay()}
           </ul>
         </div>
