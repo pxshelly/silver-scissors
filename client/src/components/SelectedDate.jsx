@@ -25,7 +25,8 @@ class SelectedDate extends React.Component {
   }
 
   handleClick() {
-    this.setState({addAppointment: !this.state.addAppointment})
+    this.setState({addAppointment: !this.state.addAppointment});
+
   }
   
   render() {
@@ -33,11 +34,11 @@ class SelectedDate extends React.Component {
       return (
         <div>
           <button onClick={() => this.handleClick()}>Add Appointment</button>
+          <AddAppointment state={this.state.addAppointment}/>
           <h2>{this.props.month} {this.props.date}, {this.props.year}</h2>
           <ul>
             {this.timesOfDay()}
           </ul>
-          <AddAppointment state={this.state.addAppointment}/>
         </div>
       )
     } else {
