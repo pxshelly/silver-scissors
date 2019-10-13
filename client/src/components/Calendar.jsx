@@ -21,7 +21,7 @@ class Calendar extends React.Component {
   }
 
   getWeekdays() {
-     const weekdays = moment.weekdays().map((day, i) => {
+     const weekdays = moment.weekdaysShort().map((day, i) => {
       return <td key={i}>{day}</td>;
     })
     return weekdays;
@@ -93,20 +93,18 @@ class Calendar extends React.Component {
 
   render() {
     return (
-      <div className='calendar-container'>
-        <table>
-          <thead>
-            <tr>
-              <th>{this.state.year}</th>
-            </tr>
-            <tr>
-              <td onClick={() => this.lastMonth()}>Last Month</td>
-              <th onClick={() => this.selectMonth()}>{this.state.month}</th>
-              <td onClick={() => this.nextMonth()}>Next Month</td>
-            </tr>
+      <div>
+        <div className='calendar-year'>{this.state.year}</div>
+        <div className='calendar-header'>
+          <span className='calendar-header-contents' onClick={() => this.lastMonth()}>Last Month</span>
+          <span className='calendar-header-contents' onClick={() => this.selectMonth()}>{this.state.month}</span>
+          <span className='calendar-header-contents' onClick={() => this.nextMonth()}>Next Month</span>
+        </div>
+        <table className='calendar-table'>
+          <tbody>
             <tr>{this.getWeekdays()}</tr>
-          </thead>
-          <tbody>{this.loadCalendar()}</tbody>
+            {this.loadCalendar()}
+          </tbody>
         </table>
         <SelectedDate date={this.state.selectedDate} isDateSelected={this.state.isDateSelected} year={this.state.year} month={this.state.month}/>
       </div>
