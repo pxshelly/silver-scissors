@@ -1,0 +1,153 @@
+body {
+  display: block;
+  text-align: center;
+  color: #002b54;
+  font-family: helvetica;
+}
+
+h1 {
+  font-family: 'Ledger', serif;
+}
+
+h2 {
+  font-family: 'Meddon', cursive;
+  color: #7b6962;
+}
+
+ul {
+  display: block;
+  list-style-type: none;
+}
+
+.nav-links {
+  display: inline-block;
+  padding: 3em;
+}
+
+li {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: #002b54;
+}
+
+a:visited {
+  color: #002b54;
+}
+
+a:active {
+  color: #7b6962;
+} 
+
+.services-container {
+  display: inline-flex;
+}
+
+.add-appointment-form-container {
+  padding-top:10%;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+.add-appointment-form {
+  padding: 15%;
+  background-color: white;
+  margin: auto;
+  z-index: 2;
+  width: 10vw;
+  height: 10vh;
+}
+
+.add-appointment-button {
+  margin: 3rem 0rem 2rem 0rem;
+}
+
+.calendar-table {
+  margin: auto;
+}
+
+.calendar-year {
+  padding-bottom: 1em;
+}
+
+.calendar-header {
+  display: inline-flex;
+  margin-left: 3em;
+}
+
+.calendar-header-contents {
+  padding-right: 3em;
+  padding-bottom: 1em;
+}
+
+td {
+  padding:0 1em 0 1em;
+}
+
+.times-container{
+  width: 50vw;
+  height: 50vh;
+  text-align: left;
+  margin: auto;
+  overflow: auto;
+}
+
+.times-header{
+padding-bottom: 2rem;
+}
+
+.times {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 1em;
+}
+
+label {
+  display: block;
+}
+
+form {
+  margin-right: 1vw;
+}
+
+form input {
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+  width: 20vw;
+}
+
+.services-appointment-container-open {
+  z-index: 1;
+  border: 1px solid #002b54;
+  margin-right: 2.5rem;
+  background-color: white;
+  
+}
+
+.services-appointment-dropdown {
+  display: flex;
+  width: 25.5vw;
+  flex-direction: column;
+  font-family: helvetica;
+  height: 2rem;
+  margin: auto;
+}
+
+.services-li {
+  /* margin-right: 2.5rem; */
+}
+
+iframe {
+  width: 600px;
+  height:450px;
+  border-style: none;
+  frameborder: 0;
+}
