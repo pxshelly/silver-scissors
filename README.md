@@ -1,1 +1,1 @@
-# silverScissors
+# silver-scissors
