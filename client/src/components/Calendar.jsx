@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import SelectedDate from './SelectedDate.jsx';
-import { runInThisContext } from 'vm';
+import Schedule from './Schedule.jsx';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -13,8 +12,8 @@ class Calendar extends React.Component {
       daysInMonth: moment().daysInMonth(),
       monthDifference: 0,
       yearDifference: 0,
-      isDateSelected: false,
-      selectedDate: 'Select a date'
+      date: moment().format('LL'),
+      dateSelected: false
     };
     this.loadCalendar = this.loadCalendar.bind(this);
     this.lastMonth = this.lastMonth.bind(this);
@@ -24,9 +23,10 @@ class Calendar extends React.Component {
   }
 
   getWeekdays() {
-     const weekdays = moment.weekdaysShort().map((day, i) => {
+    const weekdays = moment.weekdaysShort().map((day, i) => {
       return <td key={i}>{day}</td>;
     });
+
     return weekdays;
   }
 
@@ -34,9 +34,8 @@ class Calendar extends React.Component {
     this.setState({
       month: moment().add(this.state.monthDifference, 'month').format('MMMM'),
       firstDayOfMonth: moment().add(this.state.monthDifference, 'month').startOf('month').format('d'),
-      daysInMonth: moment().add(this.state.monthDifference, 'month').daysInMonth(),
+      daysInMonth: moment().add(this.state.monthDifference, 'month').daysInMonth()
     });
-    this.loadCalendar();
   }
 
   lastMonth() {
@@ -44,8 +43,9 @@ class Calendar extends React.Component {
     if (this.state.month === 'January' && this.state.monthDifference < 0 || this.state.month === 'January' && this.state.yearDifference > 0) {
       this.setState({
         yearDifference: this.state.yearDifference -= 1,
-        year: moment().add(this.state.yearDifference, 'years').format('YYYY')});
-    };
+        year: moment().add(this.state.yearDifference, 'years').format('YYYY')
+      });
+    }
     // update month
     this.setState({monthDifference: this.state.monthDifference -= 1});
     this.updateState();
@@ -56,8 +56,9 @@ class Calendar extends React.Component {
     if (this.state.month === 'December' && this.state.monthDifference > 0 || this.state.month === 'December' && this.state.yearDifference < 0) {
       this.setState({
         yearDifference: this.state.yearDifference += 1,
-        year: moment().add(this.state.yearDifference, 'years').format('YYYY')});
-    };
+        year: moment().add(this.state.yearDifference, 'years').format('YYYY')
+      });
+    }
     // update month
     this.setState({monthDifference: this.state.monthDifference += 1});
     this.updateState();
@@ -67,19 +68,20 @@ class Calendar extends React.Component {
     // determine which day the first of the month falls in and how many blank spaces to leave in calendar
     const blanks = [];
     for (let i = 0; i < this.state.firstDayOfMonth; i++) {
-      blanks.push(<td key={i*1000}></td>)
-    };
+      blanks.push(<td key={i*1000}></td>);
+    }
 
     // create td tags for each day in month
-    const allDays = []
+    const allDays = [];
     for (let i = 1; i <= this.state.daysInMonth; i++) {
-      allDays.push(<td key={i} onClick={(e) => this.selectDate(e)}><span>{i}</span></td>)
-    };
+      allDays.push(<td key={i} onClick={(e) => this.selectDate(e)}><span>{i}</span></td>);
+    }
 
     // combine blank spaces with number of days and create rows for each week
     const totalCells = [...blanks, ...allDays];
     const calendarRows = [];
     let calendarCells = [];
+    
     totalCells.forEach((day, i) => {
       if (i % 7 !== 0 ) {
         calendarCells.push(day);
@@ -95,7 +97,7 @@ class Calendar extends React.Component {
   
     // create <td> tag for each row with random key
     const weeks = calendarRows.map((week, i) => {
-      return <tr key={i*100}>{week}</tr>
+      return <tr key={i*100}>{week}</tr>;
     }); 
 
     return weeks;
@@ -103,8 +105,8 @@ class Calendar extends React.Component {
 
   selectDate(e) {
     this.setState({
-      isDateSelected: true,
-      selectedDate: e.target.innerText
+      dateSelected: true,
+      date: e.target.innerText
     });
   }
 
@@ -123,9 +125,9 @@ class Calendar extends React.Component {
             {this.loadCalendar()}
           </tbody>
         </table>
-        <SelectedDate date={this.state.selectedDate} isDateSelected={this.state.isDateSelected} year={this.state.year} month={this.state.month}/>
+        <Schedule date={this.state.date} dateSelected={this.state.dateSelected} year={this.state.year} month={this.state.month} />
       </div>
-    )
+    );
   }
 }
 
