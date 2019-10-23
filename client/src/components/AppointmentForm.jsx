@@ -1,6 +1,6 @@
 import React from 'react';
 import ServiceList from './ServiceList.jsx';
-import Stylists from './Stylists.jsx';
+import StylistList from './StylistList.jsx';
 
 class AppointmentForm extends React.Component {
   constructor(props) {
@@ -116,7 +116,7 @@ class AppointmentForm extends React.Component {
           <div key={i}>
             <label>{field.label}</label>
             <select {...field} onChange={(e) => this.handleChange(e)}>
-              <Stylists />
+              <StylistList />
             </select>
           </div>
         );
