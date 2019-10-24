@@ -3,11 +3,12 @@ const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
 const bodyParser = require('body-parser');
-const { makeAppointment } = require('./controllers');
+const { getAppointments, makeAppointment } = require('./controllers');
 
 app.use(express.static(path.join(__dirname, '../dist/')));
 app.use(bodyParser.json());
 
+app.get('/schedule/:date', getAppointments);
 app.post('/schedule/appointments', makeAppointment);
 
 app.get('*', (req, res) => {

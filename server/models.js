@@ -1,5 +1,20 @@
 const pool = require('../database/index');
 
+const retrieveAppointments = (date) => {
+  return new Promise((resolve, reject) => {
+    pool.connect()
+      .then((client) => {
+        const query = `SELECT * FROM appointments WHERE appt_date = $1`;
+        return Promise.all([client.query(query, [date]), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result.rows);
+        client.release();
+      })
+      .catch((error) => reject(error));
+  });
+};
+
 const createAppointment = (appointment) => {
   const data = Object.values(appointment);
   return new Promise((resolve, reject) => {
@@ -15,4 +30,4 @@ const createAppointment = (appointment) => {
       .catch((error) => reject(error));
   })
 }
-module.exports = { createAppointment };
+module.exports = { retrieveAppointments, createAppointment };
