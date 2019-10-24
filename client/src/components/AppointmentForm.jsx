@@ -1,17 +1,18 @@
 import React from 'react';
 import ServiceList from './ServiceList.jsx';
 import StylistList from './StylistList.jsx';
+import axios from 'axios';
 
 class AppointmentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      stylist: '',
-      service: '',
+      stylist: 'No Preference',
+      service: 'Haircut',
       date: '',
       time: '',
-      phoneNumer: '',
+      phoneNumber: '',
       textable: '',
       notes: '',
       pictures: ''
@@ -29,6 +30,17 @@ class AppointmentForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    axios.post('/schedule/appointments', [
+      this.state.name,
+      this.state.stylist,
+      this.state.service,
+      this.state.date,
+      this.state.time,
+      this.state.phoneNumber,
+      this.state.textable,
+      this.state.notes,
+      this.state.pictures
+    ]);
   }
 
   createFields() {
@@ -80,7 +92,7 @@ class AppointmentForm extends React.Component {
       {
         label: 'Can we text this number?',
         type: 'text',
-        name: 'text',
+        name: 'textable',
         required: 'required',
         className: 'appointment-form'
       },
@@ -135,9 +147,9 @@ class AppointmentForm extends React.Component {
 
   render() {
     return (
-      <form>
+      <form onSubmit={(e) => this.handleSubmit(e)}>
         {this.createFields()}
-        <input type='submit' value='submit' className='appointment-form' onSubmit={() => this.handleSubmit()}></input>
+        <input type='submit' value='submit' className='appointment-form'></input>
       </form>
     );
   }
