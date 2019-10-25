@@ -12,8 +12,9 @@ class Calendar extends React.Component {
       daysInMonth: moment().daysInMonth(),
       monthDifference: 0,
       yearDifference: 0,
-      date: moment().format('LL'),
-      dateSelected: false
+      date: moment().format('D'),
+      selectedMonth: moment().format('MMMM'),
+      selectedYear: moment().year()
     };
     this.loadCalendar = this.loadCalendar.bind(this);
     this.lastMonth = this.lastMonth.bind(this);
@@ -105,8 +106,9 @@ class Calendar extends React.Component {
 
   selectDate(e) {
     this.setState({
-      dateSelected: true,
-      date: e.target.innerText
+      date: e.target.innerText,
+      selectedMonth: this.state.month,
+      selectedYear: this.state.year
     });
   }
 
@@ -125,7 +127,7 @@ class Calendar extends React.Component {
             {this.loadCalendar()}
           </tbody>
         </table>
-        <Schedule date={this.state.date} dateSelected={this.state.dateSelected} year={this.state.year} month={this.state.month} />
+        <Schedule date={this.state.date} year={this.state.year} month={this.state.month} selectedMonth={this.state.selectedMonth} selectedYear={this.state.selectedYear}/>
       </div>
     );
   }
