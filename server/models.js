@@ -4,7 +4,7 @@ const moment = require('moment');
 const DATA_FORMAT = 'HH:mm:ss';
 const CLIENT_FORMAT = 'h:mm A';
 
-const retrieveAppointments = (date) => {
+const retrieveAppts = (date) => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
@@ -22,14 +22,14 @@ const retrieveAppointments = (date) => {
         }
 
         // Assign appointments to their respective time slot
-        result.rows.forEach((appointment) => {
-          const time = appointment.appt_time;
+        result.rows.forEach((appt) => {
+          const time = appt.appt_time;
           const formattedTime = moment(time, DATA_FORMAT).format(CLIENT_FORMAT);
-          appointment.appt_time = formattedTime;
+          appt.appt_time = formattedTime;
           
           const hour = moment(time, DATA_FORMAT).startOf('hour').format(CLIENT_FORMAT);
 
-          data[hour].push(appointment);
+          data[hour].push(appt);
         });
         
         resolve([data, result.rows]);
@@ -39,12 +39,12 @@ const retrieveAppointments = (date) => {
   });
 };
 
-const retrieveAppointmentDetails = (appointment) => {
+const retrieveApptDetails = appt => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
         const query = `SELECT * FROM appointments WHERE appt_id = $1`;
-        return Promise.all([client.query(query, [appointment]), client]);
+        return Promise.all([client.query(query, [appt]), client]);
       })
       .then(([result, client]) => {
         resolve(result.rows);
@@ -54,19 +54,36 @@ const retrieveAppointmentDetails = (appointment) => {
   });
 };
 
-const createAppointment = (appointment) => {
-  const data = Object.values(appointment);
+const createAppt = appt => {
+  const data = Object.values(appt);
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
-        const query = `INSERT INTO appointments (customer_name, employee_name, hair_service, appt_date, appt_time, phone_number, textable, notes, pictures) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+        const query = `INSERT INTO appointments (customer_name, stylist, hair_service, appt_date, appt_time, telephone, textable, notes, pictures) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
         return Promise.all([client.query(query, data), client]);
       })
       .then(([result, client]) => {
         resolve(result);
         client.release();
       })
-      .catch((error) => reject(error));
+      .catch((error) => console.log(error));
   })
 }
-module.exports = { retrieveAppointments, retrieveAppointmentDetails, createAppointment };
+
+const updateAppt = (appt) => {
+  return new Promise((resolve, reject) => {
+    pool.connect()
+      .then((client) => {
+        const query = `UPDATE appointments SET customer_name = $1, stylist = $2, hair_service = $3, appt_date = $4, appt_time = $5, telephone = $6, textable = $7, notes = $8, pictures = $9 WHERE appt_id = $10`;
+        const params = [appt.customer_name, appt.employee_name, appt.hair_service, appt.appt_date, appt.appt_time, appt.phone_number, appt.textable, appt.notes, appt.pictures, appt.id];
+        return Promise.all([client.query(query, params), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result);
+        client.release();
+      })
+      .catch((error) => console.log(error));
+  })
+}
+
+module.exports = { retrieveAppts, retrieveApptDetails, createAppt , updateAppt };
