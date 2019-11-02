@@ -5,27 +5,27 @@ CREATE DATABASE silver_scissors;
 \c silver_scissors; 
 
 CREATE TABLE appointments (
-  appointment_id SERIAL PRIMARY KEY,
-  customer_name TEXT,
-  employee_name TEXT,
-  hair_service TEXT,
-  appt_date DATE,
-  appt_time TIME,
-  phone_number VARCHAR,
-  textable TEXT,
-  notes TEXT,
+  appt_id SERIAL PRIMARY KEY,
+  customer_name TEXT NOT NULL, 
+  stylist TEXT NOT NULL,
+  hair_service TEXT NOT NULL,
+  appt_date DATE NOT NULL,
+  appt_time TIME NOT NULL,
+  telephone VARCHAR NOT NULL,
+  textable TEXT NOT NULL,
+  notes TEXT NOT NULL,
   pictures TEXT
 );
 
 CREATE TABLE requests (
-  requests_id SERIAL PRIMARY KEY,
-  customer_name TEXT,
-  employee_name TEXT,
-  hair_service TEXT,
-  appt_date DATE,
-  appt_time TIME,
-  phone_number VARCHAR,
-  textable TEXT,
-  notes TEXT,
+  appt_id SERIAL PRIMARY KEY,
+  customer_name TEXT NOT NULL, 
+  stylist TEXT NOT NULL,
+  hair_service TEXT NOT NULL,
+  appt_date DATE NOT NULL,
+  appt_time TIME NOT NULL,
+  telephone VARCHAR NOT NULL,
+  textable TEXT NOT NULL,
+  notes TEXT NOT NULL,
   pictures TEXT
 );
