@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './src/components/App.jsx';
+import EmployeeApp from './src/components/employee/App.jsx';
+import CustomerApp from './src/components/customer/App.jsx';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<EmployeeApp />, document.getElementById('app'));

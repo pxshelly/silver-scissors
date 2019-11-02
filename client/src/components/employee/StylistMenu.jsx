@@ -1,6 +1,6 @@
 import React from 'react';
 
-function stylistList() {
+function stylistMenu() {
   const stylists = [
     'No Preference',
     'Kathy',
@@ -9,11 +9,11 @@ function stylistList() {
     'Jack'
   ];
 
-  const buildStylistTags = stylists.map((stylist, i) => {
+  const stylistTags = stylists.map((stylist, i) => {
     return <option value={stylist} key={i} className='services-option'>{stylist}</option>;
   });
 
-  return buildStylistTags;
+  return stylistTags;
 }
 
-export default stylistList;
+export default stylistMenu;

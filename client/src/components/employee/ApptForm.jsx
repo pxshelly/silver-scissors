@@ -1,18 +1,18 @@
 import React from 'react';
-import ServiceList from './ServiceList.jsx';
-import StylistList from './StylistList.jsx';
+import ServiceMenu from './ServiceMenu.jsx';
+import StylistMenu from './StylistMenu.jsx';
 import axios from 'axios';
 
-class AppointmentForm extends React.Component {
+class ApptForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      customer_name: '',
       stylist: 'No Preference',
-      service: 'Haircut',
-      date: '',
-      time: '',
-      phoneNumber: '',
+      hair_service: 'Women Full Color',
+      appt_date: '',
+      appt_time: '',
+      telephone: '',
       textable: '',
       notes: '',
       pictures: ''
@@ -30,17 +30,18 @@ class AppointmentForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    axios.post('/schedule/appointments', [
-      this.state.name,
-      this.state.stylist,
-      this.state.service,
-      this.state.date,
-      this.state.time,
-      this.state.phoneNumber,
-      this.state.textable,
-      this.state.notes,
-      this.state.pictures
-    ]);
+    axios.post('/appointment', [
+      this.state.customer_name || document.getElementsByName('customer_name')[0].value,
+      this.state.stylist || document.getElementsByName('stylist')[0].value,
+      this.state.hair_service || document.getElementsByName('service')[0].value,
+      this.state.appt_date || document.getElementsByName('appt_date')[0].value,
+      this.state.appt_time || document.getElementsByName('appt_time')[0].value,
+      this.state.telephone || document.getElementsByName('telephone')[0].value,
+      this.state.textable || document.getElementsByName('textable')[0].value,
+      this.state.notes || document.getElementsByName('notes')[0].value,
+      this.state.pictures || document.getElementsByName('pictures')[0].value
+    ])
+    .catch((error) => console.log(error));
   }
 
   createFields() {
@@ -48,67 +49,67 @@ class AppointmentForm extends React.Component {
       {
         label: 'Name',
         type: 'text',
-        name: 'name',
+        name: 'customer_name',
         required: 'required',
-        className: 'appointment-form'
+        className: 'appt-form'
       },
       {
         label: 'Preferred Stylist',
         name: 'stylist',
-        className: 'services-appointment-dropdown'
+        className: 'services-appt-dropdown'
       },
       {
         label: 'Service',
-        name: 'service',
-        className: 'services-appointment-dropdown'
+        name: 'hair_service',
+        className: 'services-appt-dropdown'
       },
       {
         label: 'Date',
         type: 'date',
-        name: 'date',
+        name: 'appt_date',
         pattern: '\d{4}-\d{2}-\d{2}',
         required: 'required',
-        className: 'appointment-form'
+        className: 'appt-form'
       },
       {
         label: 'Time',
         type: 'time',
-        name: 'time',
-        min: '9:00',
+        name: 'appt_time',
+        min: '09:00',
         max: '19:00',
         pattern: '[0-9]{2}:[0-9]{2}',
         required: 'required',
-        className: 'appointment-form'
+        className: 'appt-form'
       },
       {
         label: 'Phone Number',
         type: 'tel',
-        name: 'phoneNumber',
+        name: 'telephone',
         pattern: '[0-9]{3}-[0-9]{3}-[0-9]{4}',
         placeholder: 'XXX-XXX-XXXX',
         required: 'required',
-        className: 'appointment-form'
+        className: 'appt-form'
       },
       {
         label: 'Can we text this number?',
         type: 'text',
         name: 'textable',
         required: 'required',
-        className: 'appointment-form'
+        className: 'appt-form'
       },
       {
         label: 'Notes',
         type: 'text',
         name: 'notes',
         placeholder: 'Additional information you would like us to know',
-        className: 'appointment-form'
+        className: 'appt-form'
       },
       {
         label: 'Pictures',
         type: 'url',
         name: 'pictures',
         placeholder: 'Link to pictures for hairstyle reference',
-        className: 'appointment-form'
+        className: 'appt-form'
       }
     ];
     
@@ -118,7 +119,7 @@ class AppointmentForm extends React.Component {
           <div key={i}>
             <label>{field.label}</label>
             <select {...field} onChange={(e) => this.handleChange(e)}>
-              <ServiceList />
+              <ServiceMenu />
             </select>
           </div>
         );
@@ -128,7 +129,7 @@ class AppointmentForm extends React.Component {
           <div key={i}>
             <label>{field.label}</label>
             <select {...field} onChange={(e) => this.handleChange(e)}>
-              <StylistList />
+              <StylistMenu />
             </select>
           </div>
         );
@@ -149,10 +150,10 @@ class AppointmentForm extends React.Component {
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
         {this.createFields()}
-        <input type='submit' value='submit' className='appointment-form'></input>
+        <button className='appt-form'>Submit</button>
       </form>
     );
   }
 }
 
-export default AppointmentForm;
+export default ApptForm;

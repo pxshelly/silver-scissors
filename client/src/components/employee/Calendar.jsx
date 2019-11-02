@@ -127,7 +127,13 @@ class Calendar extends React.Component {
             {this.loadCalendar()}
           </tbody>
         </table>
-        <Schedule date={this.state.date} year={this.state.year} month={this.state.month} selectedMonth={this.state.selectedMonth} selectedYear={this.state.selectedYear}/>
+        <Schedule 
+          date={this.state.date} 
+          year={this.state.year}
+          month={this.state.month}
+          selectedMonth={this.state.selectedMonth}
+          selectedYear={this.state.selectedYear}
+        />
       </div>
     );
   }

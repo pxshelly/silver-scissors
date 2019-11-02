@@ -4,7 +4,7 @@ import moment from 'moment';
 function apptDetails(props) {
   const { customer_name, stylist, hair_service, appt_date, appt_time, telephone, textable, notes, pictures, appt_id } = props.apptDetails;
 
-  const obj = {
+  const details = {
     'Customer Name': customer_name,
     'Stylist': stylist,
     'Service': hair_service,
@@ -16,12 +16,12 @@ function apptDetails(props) {
     'Pictures': pictures,
   }
 
-  const tr = [];
-  for (const key in obj) {
-    tr.push(
+  const tableRows = [];
+  for (const key in details) {
+    tableRows.push(
       <tr key={key}>
         <td>{key}</td>
-        <td>{obj[key]}</td>
+        <td>{details[key]}</td>
       </tr>
     );
   }
@@ -39,7 +39,7 @@ function apptDetails(props) {
         }
         document.getElementsByName(key)[0].value = details[key];
       }
-    }, 50)
+    }, 10);
   }
 
   if (props.apptDetails) {
@@ -48,7 +48,7 @@ function apptDetails(props) {
         <button id={appt_id} onClick={() => autofill()}>Edit Appointment</button>
         <table>
           <tbody>
-            {tr}
+            {tableRows}
           </tbody>
         </table>
       </div>

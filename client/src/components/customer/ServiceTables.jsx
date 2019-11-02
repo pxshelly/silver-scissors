@@ -1,5 +1,5 @@
 import React from 'react';
-import { services } from './services';
+import { services } from '../shared/services';
 
 function serviceTables() {
   const createTableRows = (table) => {
