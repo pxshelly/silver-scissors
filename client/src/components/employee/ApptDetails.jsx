@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import axios from 'axios';
 
 function apptDetails(props) {
   const { customer_name, stylist, hair_service, appt_date, appt_time, telephone, textable, notes, pictures, appt_id } = props.apptDetails;
@@ -42,15 +43,22 @@ function apptDetails(props) {
     }, 10);
   }
 
+  const deleteAppt = () => {
+    let id = document.getElementsByClassName('delete-appt-button')[0].getAttribute('id');
+    axios.delete(`/appointment/delete/${id}`)
+      .catch((error) => console.log(error));
+  }
+
   if (props.apptDetails) {
     return (
       <div>
-        <button id={appt_id} onClick={() => autofill()}>Edit Appointment</button>
+        <button id={appt_id} className='edit-appt-button' onClick={() => autofill()}>Edit Appointment</button>
         <table>
           <tbody>
             {tableRows}
           </tbody>
         </table>
+        <button id={appt_id} className='delete-appt-button' onClick={() => deleteAppt()}>Delete Appointment</button>
       </div>
     );
   } 

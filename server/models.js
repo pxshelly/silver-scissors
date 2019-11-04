@@ -4,7 +4,7 @@ const moment = require('moment');
 const DATA_FORMAT = 'HH:mm:ss';
 const CLIENT_FORMAT = 'h:mm A';
 
-const retrieveAppts = (date) => {
+const retrieveAppts = date => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
@@ -66,11 +66,11 @@ const createAppt = appt => {
         resolve(result);
         client.release();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => reject(error));
   })
 }
 
-const updateAppt = (appt) => {
+const updateAppt = appt => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
@@ -82,8 +82,22 @@ const updateAppt = (appt) => {
         resolve(result);
         client.release();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => reject(error));
   })
 }
 
-module.exports = { retrieveAppts, retrieveApptDetails, createAppt , updateAppt };
+const deleteAppt = appt => {
+  return new Promise((resolve, reject) => {
+    pool.connect()
+      .then((client) => {
+        const query = `DELETE from appointments WHERE appt_id = $1`;
+        return Promise.all([client.query(query, [appt]), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result);
+        client.release();
+      })
+      .catch((error) => reject(error));
+  })
+}
+module.exports = { retrieveAppts, retrieveApptDetails, createAppt, updateAppt, deleteAppt };
