@@ -4,7 +4,7 @@ const moment = require('moment');
 const DATA_FORMAT = 'HH:mm:ss';
 const CLIENT_FORMAT = 'h:mm A';
 
-const retrieveAppts = date => {
+const retrieveApptsByDate = date => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
@@ -26,12 +26,10 @@ const retrieveAppts = date => {
           const time = appt.appt_time;
           const formattedTime = moment(time, DATA_FORMAT).format(CLIENT_FORMAT);
           appt.appt_time = formattedTime;
-          
           const hour = moment(time, DATA_FORMAT).startOf('hour').format(CLIENT_FORMAT);
-
           data[hour].push(appt);
         });
-        
+
         resolve([data, result.rows]);
         client.release();
       })
@@ -39,14 +37,18 @@ const retrieveAppts = date => {
   });
 };
 
-const retrieveApptDetails = appt => {
+const retrieveApptDetails = appt_id => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
-        const query = `SELECT * FROM appointments WHERE appt_id = $1`;
-        return Promise.all([client.query(query, [appt]), client]);
+        const query = `SELECT * FROM appointments WHERE id = $1`;
+        return Promise.all([client.query(query, [appt_id]), client]);
       })
       .then(([result, client]) => {
+        result.rows.forEach((appt) => {
+          appt.appt_time = moment(appt.appt_time, DATA_FORMAT).format(CLIENT_FORMAT);
+        });
+
         resolve(result.rows);
         client.release();
       })
@@ -59,7 +61,10 @@ const createAppt = appt => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
-        const query = `INSERT INTO appointments (customer_name, stylist, hair_service, appt_date, appt_time, telephone, textable, notes, pictures) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+        const params = Object.keys(appt).join(', ');
+        const values = Object.keys(appt).map((keys, i) => `$${i + 1}`).join(', ');
+        const data = Object.keys(appt).map((keys, i) => appt[keys]);
+        const query = `INSERT INTO appointments (${params}) VALUES (${values}) RETURNING *`;
         return Promise.all([client.query(query, data), client]);
       })
       .then(([result, client]) => {
@@ -68,14 +73,22 @@ const createAppt = appt => {
       })
       .catch((error) => reject(error));
   })
-}
+};
 
 const updateAppt = appt => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
-        const query = `UPDATE appointments SET customer_name = $1, stylist = $2, hair_service = $3, appt_date = $4, appt_time = $5, telephone = $6, textable = $7, notes = $8, pictures = $9 WHERE appt_id = $10`;
-        const params = [appt.customer_name, appt.employee_name, appt.hair_service, appt.appt_date, appt.appt_time, appt.phone_number, appt.textable, appt.notes, appt.pictures, appt.id];
+        const id = appt.id;
+        delete appt.id;
+        const params = Object.values(appt);
+        params.push(id);
+
+        const keyValuePairs = Object
+          .keys(appt)
+          .map((key, i) => `${key} = $${i + 1}`)
+          .join(', ');
+        let query = `UPDATE appointments SET ${keyValuePairs} WHERE id = $${params.length}`;
         return Promise.all([client.query(query, params), client]);
       })
       .then(([result, client]) => {
@@ -83,15 +96,15 @@ const updateAppt = appt => {
         client.release();
       })
       .catch((error) => reject(error));
-  })
-}
+  });
+};
 
-const deleteAppt = appt => {
+const deleteAppt = appt_id => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
         const query = `DELETE from appointments WHERE appt_id = $1`;
-        return Promise.all([client.query(query, [appt]), client]);
+        return Promise.all([client.query(query, [appt_id]), client]);
       })
       .then(([result, client]) => {
         resolve(result);
@@ -99,5 +112,84 @@ const deleteAppt = appt => {
       })
       .catch((error) => reject(error));
   })
-}
-module.exports = { retrieveAppts, retrieveApptDetails, createAppt, updateAppt, deleteAppt };
+};
+
+const retrieveApptsByStatus = status => {
+  return new Promise((resolve, reject) => {
+    pool.connect()
+      .then((client) => {
+        const query = `SELECT * FROM appointments WHERE appt_status = $1`;
+        return Promise.all([client.query(query, [status]), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result.rows);
+        client.release();
+      })
+      .catch((error) => reject(error));
+  });
+};
+
+const retrieveApptsByUser = user_id => {
+  return new Promise((resolve, reject) => {
+    pool.connect()
+      .then((client) => {
+        const query = `SELECT * FROM appointments WHERE user_id = $1`;
+        return Promise.all([client.query(query, [user_id]), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result.rows);
+        client.release();
+      })
+      .catch((error) => reject(error));
+  });
+};
+
+const retrieveUserById = id => {
+  return new Promise((resolve, reject) => {
+    pool.connect()
+      .then((client) => {
+        const query = `SELECT * FROM users WHERE fb_id = $1`;
+        return Promise.all([client.query(query, [id]), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result.rows);
+        client.release();
+      })
+      .catch((error) => reject(error));
+  });
+};
+
+const createUser = userOptions => {
+  return new Promise((resolve, reject) => {
+    const whitelist = ['user_name', 'user_type', 'fb_id', 'fb_access_token', 'email', 'telephone'];
+    if (!userOptions.username) {
+      reject(new Error('No username provided'));
+      return;
+    }
+    userOptions.user_name = userOptions.username;
+    delete userOptions.username;
+    userOptions.user_type = 'customer';
+
+    for (let key in userOptions) {
+      if (!whitelist.includes(key)) {
+        reject(new Error('User options are invalid'));
+        return;
+      }
+    }
+    pool.connect()
+      .then((client) => {
+        const params = Object.keys(userOptions).join(', ');
+        const values = Object.keys(userOptions).map((option, i) => `$${i + 1}`).join(', ');
+        const data = Object.keys(userOptions).map((option, i) => userOptions[option]);
+        const query = `INSERT INTO users (${params}) VALUES (${values}) RETURNING *`;
+        return Promise.all([client.query(query, data), client]);
+      })
+      .then(([result, client]) => {
+        resolve(result);
+        client.release();
+      })
+      .catch((error) => reject(error));
+  });
+};
+
+module.exports = { retrieveApptsByDate, retrieveApptDetails, createAppt, updateAppt, deleteAppt, retrieveApptsByStatus, retrieveUserById, createUser, retrieveApptsByUser };
