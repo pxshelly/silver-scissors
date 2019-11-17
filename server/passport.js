@@ -48,10 +48,11 @@ const setUpPassport = () => {
 }
 
 const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated())
+  if (req.isAuthenticated()) {
     return next();
+  }
 
-  res.redirect('/');
+  res.status(302).send({ redirect: 'http://localhost:3000/login' });
 };
 
 module.exports = { setUpPassport, isLoggedIn };
