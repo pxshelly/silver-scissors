@@ -5,7 +5,7 @@ function serviceTables() {
   const createTableRows = (table) => {
     const keys = Object.keys(table);
     const values = Object.values(table);
-    
+
     const tableRows = keys.map((key, i) => {
       return (
         <tr key={i}>
@@ -14,26 +14,34 @@ function serviceTables() {
         </tr>
       );
     });
-    
     return tableRows;
   };
 
   const tables = [];
 
   for (let key in services) {
-    tables.push(
-      <table key={key}>
-        <thead>
-          <tr>
-            <th>{key}</th>
-            <th>{'Price'}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {createTableRows(services[key])}
-        </tbody>
-      </table>
-    );
+    if (key.includes('Image')) {
+      tables.push(
+        <img src={services[key]} />);
+    } else {
+      tables.push(
+        <table key={key} className='table-pairs'>
+          <thead>
+            <tr>
+              <th>{key}</th>
+              <th>{'Price'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {createTableRows(services[key])}
+          </tbody>
+        </table>
+      );
+    }
+  }
+
+  for (let i = 0; i < tables.length; i += 3) {
+    tables.splice(i, 0, <br key={i} />);
   }
 
   return (
