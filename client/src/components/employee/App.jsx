@@ -2,21 +2,34 @@ import React from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import Routes from './Routes.jsx';
 import Header from '../shared/Header.jsx';
+import axios from 'axios';
 
 class EmployeeApp extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loggedIn: false
+    }
+  }
+
+  componentDidMount() {
+    axios.get('/login-status')
+      .then(({ data: { loggedIn } }) => this.setState({ loggedIn }))
+      .catch(() => {
+        this.setState({ loggedIn: false })
+      });
   }
 
   linkRoutes() {
     const routes = {
       '/calendar': 'Calendar',
-      '/create-appointment' : 'Create Appointment',
+      '/create-appointment': 'Create Appointment',
+      '/pending-appointments': 'Pending Appointments'
     };
-    
+
     const linkTags = [];
     for (let key in routes) {
-      linkTags.push(<Link to={key} key={key} className='nav-links'>{routes[key]}</Link>)
+      linkTags.push(<Link to={key} key={key}>{routes[key]}</Link>)
     };
 
     return linkTags;
@@ -24,15 +37,15 @@ class EmployeeApp extends React.Component {
 
   render() {
     return (
-      <Router>
-          <Header />
+      <div>
+        <Header />
+        <Router>
           <nav>
-            <ul>
-              {this.linkRoutes()}
-            </ul>
-            <Routes />
+            {this.linkRoutes()}
           </nav>
-      </Router>
+          <Routes loggedIn={this.state.loggedIn} />
+        </Router>
+      </div>
     );
   }
 }
