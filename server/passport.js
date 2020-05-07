@@ -30,7 +30,7 @@ const setUpPassport = () => {
             createUser({
               fb_id: profile.id,
               fb_access_token: accessToken,
-              username: profile.displayName
+              user_name: profile.displayName
             })
               .then(result => {
                 done(null, result.rows[0])
@@ -52,7 +52,15 @@ const isLoggedIn = (req, res, next) => {
     return next();
   }
 
-  res.status(302).send({ redirect: 'http://localhost:3000/login' });
+  res.status(302).send({ redirect: 'http://silverscissors.com:3000/login' });
 };
 
-module.exports = { setUpPassport, isLoggedIn };
+const shouldSendIndex = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect('http://localhost.com:3000/login');
+};
+
+module.exports = { setUpPassport, isLoggedIn, shouldSendIndex};
