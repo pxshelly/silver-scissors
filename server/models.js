@@ -4,12 +4,12 @@ const moment = require('moment');
 const DATA_FORMAT = 'HH:mm:ss';
 const CLIENT_FORMAT = 'h:mm A';
 
-const retrieveApptsByDate = date => {
+const retrieveApptsByDate = (date, status) => {
   return new Promise((resolve, reject) => {
     pool.connect()
       .then((client) => {
-        const query = `SELECT * FROM appointments WHERE appt_date = $1 ORDER BY appt_time ASC`;
-        return Promise.all([client.query(query, [date]), client]);
+        const query = `SELECT * FROM appointments WHERE (appt_date = $1 AND appt_status = $2) ORDER BY appt_time ASC`;
+        return Promise.all([client.query(query, [date, status]), client]);
       })
       .then(([result, client]) => {
         // Create data for a "day" to be returned
@@ -78,11 +78,11 @@ const createAppt = appt => {
 const updateAppt = appt => {
   return new Promise((resolve, reject) => {
     pool.connect()
-      .then((client) => {
-        const id = appt.id;
-        delete appt.id;
-        const params = Object.values(appt);
-        params.push(id);
+    .then((client) => {
+      const id = appt.id;
+      delete appt.id;
+      const params = Object.values(appt);
+      params.push(id);
 
         const keyValuePairs = Object
           .keys(appt)
@@ -97,21 +97,6 @@ const updateAppt = appt => {
       })
       .catch((error) => reject(error));
   });
-};
-
-const deleteAppt = appt_id => {
-  return new Promise((resolve, reject) => {
-    pool.connect()
-      .then((client) => {
-        const query = `DELETE from appointments WHERE appt_id = $1`;
-        return Promise.all([client.query(query, [appt_id]), client]);
-      })
-      .then(([result, client]) => {
-        resolve(result);
-        client.release();
-      })
-      .catch((error) => reject(error));
-  })
 };
 
 const retrieveApptsByStatus = status => {
@@ -162,7 +147,7 @@ const retrieveUserById = id => {
 const createUser = userOptions => {
   return new Promise((resolve, reject) => {
     const whitelist = ['user_name', 'user_type', 'fb_id', 'fb_access_token', 'email', 'telephone'];
-    if (!userOptions.username) {
+    if (!userOptions.user_name) {
       reject(new Error('No username provided'));
       return;
     }
@@ -192,4 +177,4 @@ const createUser = userOptions => {
   });
 };
 
-module.exports = { retrieveApptsByDate, retrieveApptDetails, createAppt, updateAppt, deleteAppt, retrieveApptsByStatus, retrieveUserById, createUser, retrieveApptsByUser };
+module.exports = { retrieveApptsByDate, retrieveApptDetails, createAppt, updateAppt, retrieveApptsByStatus, retrieveUserById, createUser, retrieveApptsByUser };
