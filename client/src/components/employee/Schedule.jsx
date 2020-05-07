@@ -1,47 +1,45 @@
 import React from 'react';
 import axios from 'axios';
-import AddAppt from './AddAppt.jsx';
+import EditAppt from './EditAppt.jsx';
 import ApptDetails from './ApptDetails.jsx';
 
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      createAppt: false,
       schedule: false,
       apptDetails: false,
       appts: [],
       editAppt: false,
       error: ''
     }
-    this.createAppt = this.createAppt.bind(this);
     this.getApptDetails = this.getApptDetails.bind(this);
-    this.editAppt = this.editAppt.bind(this); 
-  }
-
-  createAppt() {
-    this.setState({createAppt: !this.state.createAppt});
+    this.editAppt = this.editAppt.bind(this);
   }
 
   loadSchedule() {
     const schedule = [];
     for (let key in this.state.schedule) {
-      schedule.push(<div key={key} className = 'times'>{key}</div>);
+      let id;
+      if (key === '9:00 AM') {
+        id = 'startOfDay';
+      }
+      schedule.push(<div key={key} id={id} className='times'>{key}</div>);
 
       this.state.schedule[key].forEach((appt, i) => {
         schedule.push(
-          <div 
-            key={appt.appt_id} 
-            className = 'times appt' 
-            id={appt.appt_id} 
-            onClick={(e) => {this.getApptDetails(e)}}
+          <div
+            key={appt.id}
+            className='times appt'
+            id={appt.id}
+            onClick={(e) => { this.getApptDetails(e) }}
           >
             {appt.appt_time} {appt.customer_name}
           </div>
         );
       });
     }
-    
+
     return schedule;
   }
 
@@ -54,15 +52,19 @@ class Schedule extends React.Component {
   }
 
   getAppts() {
-    const date = `${this.props.selectedMonth}-${this.props.date}-${this.props.selectedYear}`
-    axios.get(`/schedule/${date}`)
+    const date = `${this.props.selectedMonth}-${this.props.date}-${this.props.selectedYear}`;
+    axios.get(`/schedule/${date}?status=approved`)
       .then((result) => {
         this.setState({
           schedule: result.data[0],
           appts: result.data[1]
         });
       })
-      .catch((error) => this.setState({ error: error }));
+      .catch((error) => {
+        if (error.response.status === 302) {
+          location.href = error.response.data.redirect;
+        }
+      });
   }
 
   componentDidMount() {
@@ -70,6 +72,15 @@ class Schedule extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const times = document.getElementsByClassName('times-container')[0];
+    const nineAM = document.getElementById('startOfDay');
+    if (times && nineAM) {
+      times.scroll({ top: 0, left: 0 });
+      const timesRect = times.getBoundingClientRect();
+      const nineAMRect = document.getElementById('startOfDay').getBoundingClientRect();
+      times.scroll({ top: nineAMRect.top - timesRect.top, left: 0 });
+    }
+
     const newDate = `${this.props.selectedMonth}-${this.props.date}-${this.props.selectedYear}`;
     const previousDate = `${prevProps.selectedMonth}-${prevProps.date}-${prevProps.selectedYear}`;
     if (newDate !== previousDate) {
@@ -79,34 +90,25 @@ class Schedule extends React.Component {
 
   getApptDetails(e) {
     const id = e.target.getAttribute('id');
-    axios.get(`/appointment/${id}`)
-      .then((result) => this.setState({apptDetails: result.data[0]}))
-      .catch((error) => this.setState({error: error}));
+    axios.get(`/appointments?details=${id}`)
+      .then((result) => this.setState({ apptDetails: result.data[0] }))
+      .catch((error) => this.setState({ error: error }));
   }
 
   editAppt() {
-    this.setState({editAppt: !this.state.editAppt});
+    this.setState({ editAppt: !this.state.editAppt });
   }
 
   render() {
     return (
       <div>
-        <button className='create-appt-button' onClick={() => this.createAppt()}>Create Appointment</button>
-        <AddAppt 
-          createAppt={this.state.createAppt}
-          editState={this.state.editAppt}
-        />
+        <div>Today's Appointments: {this.state.appts.length} {this.renderAppts()}</div>
         <h2 className='times-header'>{this.props.selectedMonth} {this.props.date}, {this.props.selectedYear}</h2>
-        <div>Appointments: {this.renderAppts()}</div>
-        <ApptDetails 
-          apptDetails={this.state.apptDetails}
-          createAppt={this.state.createAppt}
-          autofill={this.autofill}
-          editAppt={this.editAppt}
-        />
         <div className='times-container'>
           {this.loadSchedule()}
         </div>
+        <EditAppt editState={this.state.editAppt} />
+        <ApptDetails apptDetails={this.state.apptDetails} editAppt={this.editAppt} />
       </div>
     );
   }
