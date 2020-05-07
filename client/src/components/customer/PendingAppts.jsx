@@ -9,7 +9,7 @@ const PendingAppts = props => {
       return (
         <li key={i}>
           <span>{moment(appt.appt_date).format('l')}</span>
-          <span>{appt.hair_service}</span>
+          <span>{appt.hair_services}</span>
           <span>{appt.appt_status}</span>
           <button>Details</button>
         </li>
