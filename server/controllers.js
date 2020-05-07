@@ -2,7 +2,7 @@ const { retrieveApptsByDate, retrieveApptDetails, createAppt, updateAppt, delete
 const { sanitizeAppt } = require('./utils');
 
 const getApptsByDate = (req, res) => {
-  retrieveApptsByDate(req.params.date)
+  retrieveApptsByDate(req.params.date, req.query.status)
     .then((result) => res.status(200).send(result))
     .catch((error) => res.status(400).send(error));
 };
@@ -29,24 +29,24 @@ const makeAppt = (req, res) => {
   if (req.user) {
     req.body.user_id = req.user.id;
   }
+  if (req.query.status === 'approved') {
+    req.body.appt_status = 'approved';
+  }
+  if (req.query.status === 'pending') {
+    req.body.appt_status = 'pending';
+  }
   createAppt(sanitizeAppt(req.body))
     .then((result) => res.status(201).send(result))
     .catch((error) => res.status(500).send(error));
 };
 
 const editAppt = (req, res) => {
-  if (req.query.status === 'approved') {
-    req.body.appt_status = 'approved';
+  if (req.query.status) {
+    req.body.appt_status = req.query.status;
   }
-  updateAppt(req.body)
+  updateAppt(sanitizeAppt(req.body))
     .then((result) => res.status(200).send(result))
     .catch((error) => res.status(500).send(error));
 };
 
-const removeAppt = (req, res) => {
-  deleteAppt(req.params.id)
-    .then((result) => res.status(200).send(result))
-    .catch((error) => res.status(400).send(error));
-};
-
-module.exports = { getApptsByDate, getAppt, makeAppt, editAppt, removeAppt };
+module.exports = { getApptsByDate, getAppt, makeAppt, editAppt };
