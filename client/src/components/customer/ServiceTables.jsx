@@ -31,7 +31,7 @@ const serviceTables = () => {
           </tbody>
         </table>
         <div className='service-image'>
-          <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_5751.jpg' />
+          <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_5836.jpg' />
           <div className='table-img-overlay-right'>
             <div className='table-img-overlay-text'>Haircuts</div>
           </div>
@@ -39,8 +39,8 @@ const serviceTables = () => {
       </div>
       <div className='color-table'>
         <div className='service-image'>
-          <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_5836.jpg' />
-          <div className='table-img-overlay-left'>
+          <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_5751.jpg' />
+          <div className='table-img-overlay-color'>
             <div className='table-img-overlay-text'>Coloring</div>
           </div>
         </div>
@@ -101,7 +101,7 @@ const serviceTables = () => {
         </table>
         <div className='service-image'>
           <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_5859.jpg' />
-          <div className='table-img-overlay-left'>
+          <div className='table-img-overlay-right'>
             <div className='table-img-overlay-text'>Perms</div>
           </div>
         </div>
@@ -110,7 +110,7 @@ const serviceTables = () => {
         <div className='service-image'>
           <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_5912.jpg' />
           <div className='table-img-overlay-left'>
-            <div className='table-img-overlay-text'>Additional Services</div>
+            <div className='table-img-overlay-text'>Additional</div>
           </div>
         </div>
         <table>
