@@ -1,7 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Redirect } from 'react-router-dom'
 import Routes from './Routes.jsx';
-import Header from '../shared/Header.jsx';
 
 class CustomerApp extends React.Component {
   constructor(props) {
@@ -11,13 +10,13 @@ class CustomerApp extends React.Component {
   linkRoutes() {
     const routes = {
       '/services': 'Services',
-      '/visit-us': 'Visit Us',
-      '/request-appointment': 'Request an Appointment'
+      '/request-appointment': 'Request an Appointment',
+      '/visit-us': 'Visit Us'
     };
-    
+
     const linkTags = [];
     for (let key in routes) {
-      linkTags.push(<Link to={key} key={key} className='nav-links'>{routes[key]}</Link>)
+      linkTags.push(<Link to={key} key={key}>{routes[key]}</Link>)
     };
 
     return linkTags;
@@ -25,15 +24,17 @@ class CustomerApp extends React.Component {
 
   render() {
     return (
-      <Router>
-          <Header />
-          <nav>
-            <ul>
+      <div>
+        <Router>
+          <div className='nav-container'>
+            <nav>
+              <a href='/'>silver scissors</a>
               {this.linkRoutes()}
-            </ul>
-            <Routes />
-          </nav>
-      </Router>
+            </nav>
+          </div>
+          <Routes />
+        </Router>
+      </div>
     );
   }
 }
