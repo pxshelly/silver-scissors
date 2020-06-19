@@ -3,14 +3,14 @@ import moment from 'moment';
 import axios from 'axios';
 
 function apptDetails(props) {
-  const { customer_name, stylist, hair_services, appt_date, appt_time, email, telephone, textable, notes, pictures, id, price, duration_hours, duration_minutes} = props.apptDetails;
+  const { customer_name, stylist, hair_services, appt_date, appt_time, email, telephone, textable, notes, pictures, id, price, duration_hours, duration_minutes } = props.apptDetails;
 
   const details = {
     'Customer Name': customer_name,
     'Service': hair_services,
     'Stylist': stylist,
     'Date': moment(appt_date).format('LL'),
-    'Time': appt_time, 
+    'Time': appt_time,
     'Email': email,
     'Telephone': telephone,
     'Can we text this number?': textable,
@@ -25,12 +25,12 @@ function apptDetails(props) {
   for (const key in details) {
     tableRows.push(
       <tr key={key}>
-        <td>{key}</td>
+        <td className='edit-appt-modal-td'>{key}</td>
         <td>{details[key]}</td>
       </tr>
     );
   }
-  
+
   const autofill = () => {
     props.editAppt();
     setTimeout(() => {
@@ -41,17 +41,17 @@ function apptDetails(props) {
         }
         if (key === 'id' || key === 'user_id' || key === 'appt_status') {
           continue;
-        } 
+        }
         if (key === 'appt_date') {
-          details[key] = moment(details[key]).format('YYYY-MM-DD');        
+          details[key] = moment(details[key]).format('YYYY-MM-DD');
         }
         if (key === 'appt_time') {
           details[key] = moment(details[key], 'h:mm A').format('HH:mm:ss');
         }
         if (key === 'telephone') {
           let telephone = details[key].toString().split('');
-          telephone.splice(3, 0, '-' );
-          telephone.splice(7, 0, '-' );
+          telephone.splice(3, 0, '-');
+          telephone.splice(7, 0, '-');
           details[key] = telephone.join('');
         }
         if (key === 'textable') {
@@ -74,17 +74,20 @@ function apptDetails(props) {
 
   if (props.apptDetails) {
     return (
-      <div>
-        <button id={id} className='edit-appt-button' onClick={autofill}>Edit Appointment</button>
-        <table>
-          <tbody>
-            {tableRows}
-          </tbody>
-        </table>
-        <button id={id} className='delete-appt-button' onClick={deleteAppt}>Delete Appointment</button>
+      <div className='modal'>
+        <div className='edit-appt-modal'>
+          <button className='close-modal-button' onClick={closeModal}>&#x2715;</button>
+          <table className='edit-appt-modal-table'>
+            <tbody>
+              {tableRows}
+            </tbody>
+          </table>
+          <button id={id} className='edit-appt-button' onClick={autofill}>Edit Appointment</button>
+          <button id={id} className='delete-appt-button' onClick={deleteAppt}>Delete Appointment</button>
+        </div>
       </div>
     );
-  } 
+  }
   return null;
 }
 
