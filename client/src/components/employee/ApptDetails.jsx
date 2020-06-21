@@ -70,7 +70,10 @@ function apptDetails(props) {
   }
 
   const deleteAppt = () => {
-    axios.put(`/appointments?status=deleted`, props.apptDetails)
+    const confirmation = confirm('Are you sure you want to delete this appointment?');
+    if (confirmation) {
+      axios.put(`/appointments?status=deleted`, props.apptDetails);
+    }
   }
 
   const closeModal = () => {
