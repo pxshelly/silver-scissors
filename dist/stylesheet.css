@@ -1,27 +1,83 @@
 body {
-  display: block;
-  text-align: center;
-  color: #002b54;
+  color: #000;
   font-family: helvetica;
 }
 
 h1 {
   font-family: 'Ledger', serif;
+  margin: 0;
 }
 
 h2 {
   font-family: 'Meddon', cursive;
-  color: #7b6962;
+  color: #000;
+  margin: 0;
 }
 
 ul {
-  display: block;
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-links {
+input {
+  border: none;
+  border-bottom: 1px solid gray;
+}
+
+input:focus {
+  border: none;
+  outline: none;
+  border-bottom: 4px solid gray;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+/* nav bar */
+
+.nav-container {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+}
+
+.gray-nav-container {
+  position: fixed;
+  z-index: 100;
+  background-color: lightgray;
+  width: 100%;
+  height: 4em;
+}
+
+.customer-nav {
+  margin-left: 20vw;
+}
+
+nav a {
+  vertical-align: bottom;
   display: inline-block;
-  padding: 3em;
+  margin: 0 4em .4em;
+  font-size: 14px;
+}
+
+.customer-nav a:first-child {
+  font-family: 'Ledger', serif;
+  font-size: 1.4em;
+  position: relative;
+  top: 9px;
+  margin-left: 1em;
+}
+
+.employee-nav {
+  margin: 1em 0px 2em 27vw;
 }
 
 li {
@@ -30,22 +86,107 @@ li {
 
 a {
   text-decoration: none;
-  color: #002b54;
+  color: #000;
 }
 
 a:visited {
-  color: #002b54;
+  color: #000;
 }
 
 a:active {
-  color: #7b6962;
+  color: #000;
 } 
 
-.services-container {
-  display: inline-flex;
+a:hover {
+  color: gray;
 }
 
-.add-appointment-form-container {
+button {
+  border-color: rgba(0,0,0,0);
+  cursor: pointer;
+  font-family: helvetica;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* header */
+
+.header-container {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+.header {
+  text-align: center;
+}
+
+.title-container {
+  display: inline-block;
+  margin: auto;
+}
+
+.title-container h2 {
+  margin-top: -15px;
+}
+
+.login-container{
+  align-self: flex-end;
+
+}
+
+.sign-in-button-modal {
+  position: relative;
+  /* left: 45vw; */
+  padding: 4px 15px;
+  background-color: white;
+  border: 1px solid #000;
+  display: inline-block;
+  bottom: 4em;
+}
+
+.button {
+  background: lightgray;
+  border-radius: 4px;
+  height: 30px;
+  width: 70px;
+  font-size: 12px;
+}
+
+.sign-in-button {
+  margin-right: 8px;
+}
+
+.opening-content {
+  display: block;
+  margin: 0;
+  position: relative;
+  top: 3em;
+}
+
+.opening-content img {
+  display: block;
+  margin: auto;
+  height: 700px;
+}
+
+.opening-overlay {
+  position: absolute;
+  left: 41.5vw;
+  bottom: 19%;
+  color: white;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* create appointment component in dashboard */
+.add-appt-form-container {
   padding-top:10%;
   position: fixed;
   z-index: 1;
@@ -56,7 +197,7 @@ a:active {
   background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
 }
 
-.add-appointment-form {
+.add-appt-form {
   padding: 15%;
   background-color: white;
   margin: auto;
@@ -65,8 +206,23 @@ a:active {
   height: 10vh;
 }
 
-.add-appointment-button {
-  margin: 3rem 0rem 2rem 0rem;
+.create-appt-button {
+  margin: 3em 0em 2em 0em;
+}
+
+/* calendar */
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 1em 0px;
+  width: 35em;
+  justify-content: center;
+  background: lightgray;
+  margin: 1.5em auto;
+  border-radius: 8px;
+
 }
 
 .calendar-table {
@@ -74,11 +230,11 @@ a:active {
 }
 
 .calendar-year {
-  padding-bottom: 1em;
+  padding-bottom: 0.7em;
 }
 
 .calendar-header {
-  display: inline-flex;
+  padding-bottom: 1em;
   margin-left: 3em;
 }
 
@@ -87,67 +243,522 @@ a:active {
   padding-bottom: 1em;
 }
 
-td {
-  padding:0 1em 0 1em;
+.calendar-day {
+  padding: 15px;
+}
+
+/* schedule */
+
+.today-info {
+  text-align: center;
+
 }
 
 .times-container{
-  width: 50vw;
-  height: 50vh;
+  width: 80vw;
+  height: 70vh;
   text-align: left;
   margin: auto;
   overflow: auto;
 }
 
 .times-header{
-padding-bottom: 2rem;
+padding-bottom: 2em;
 }
 
 .times {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding: 1em;
-}
-
-label {
-  display: block;
-}
-
-form {
-  margin-right: 1vw;
-}
-
-form input {
-  margin: 1rem;
-  padding: 1rem;
-  text-align: center;
-  width: 20vw;
-}
-
-.services-appointment-container-open {
-  z-index: 1;
-  border: 1px solid #002b54;
-  margin-right: 2.5rem;
-  background-color: white;
-  
-}
-
-.services-appointment-dropdown {
   display: flex;
-  width: 25.5vw;
+  flex-wrap: wrap;
+}
+
+/* appts in schedule */
+
+.appt {
+  display: inline-flex;
+  color: #1569C7;
+  border-style: none;
   flex-direction: column;
+  font-weight: 600;
+}
+
+/* create appointment form component */
+
+.appt-form-container {
+ display: flex;
+ justify-content: center;
+ margin-top: 1em;
+ padding: 3em;
+ position: relative;
+ top: .5em;
+ box-sizing: content-box;
+}
+
+.employee-appt-form-container {
+  padding: 0px;
+}
+
+.appt-form-container img {
+  border: 9px solid lightgray;
+  height: 665px;
+  margin-right: 2em;
+  border-radius: 3px;
+}
+
+.appt-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 2em;
+  /* padding: 1em; */
+  /* border: 1px solid gray; */
+}
+
+.appt-form-label {
+  font-size: 14px;
+}
+.appt-form-input {
+  margin-bottom: .5em;
+  margin-left: 1.5em;
+  width: 24em;
+}
+
+.appt-form-radio:checked {
+  color: green;
+}
+
+.appt-form input::placeholder {
+  text-align: center;
   font-family: helvetica;
-  height: 2rem;
+}
+
+.appt-form-telephone {
+  width: 10em;
+  margin-left: 1.5em;
+}
+
+.appt-form-date-time {
+  margin-left: 1.5em;
+}
+
+.appt-form-submit-button {
+  background-color: lightgray;
+  height: 3em;
+  width: 28em;
+  margin: auto;
+  border-radius: 3px;
+  font-family: 'Ledger', serif;
+  margin-top: 1.3em;
+}
+
+.textable-options-label {
+  margin-left: 1.5em;
+  font-size: 14px;
+}
+
+select {
+  background-color: white;
+  font-family: helvetica;
+  max-width: 10em;
+  font-size: 12px;
+  height: 2.2em;
+  margin-top: 1em;
+}
+/* services options menu */
+
+.service-option-container {
+  margin-top: -1em;
+  line-height: 3em;
+}
+
+.hair-services-fieldset {
+  display: inline-block;
+  vertical-align: top;
+  padding-bottom: 0;
+  padding-right: 0;
+  /* margin: 0; */
+  width: 200px;
+  height: 150px;
+  /* border: 1px solid gray; */
+  font-size: 10px;
+  line-height: 4em;
+  /* font-weight: lighter; */
+  border: none;
+}
+
+.hair-services-fieldset input{
+  margin-left: .7em;
+}
+
+.haircut-fieldset {
+  width: 150px;
+}
+
+.color-fieldset {
+  width: 150px;
+}
+
+.perm-fieldset {
+  width: 100px;
+}
+
+fieldset {
+  /* border: 1px solid gray; */
+  /* display: inline; */
+  padding: 0;
+  margin: 0;
+  border: none;
+  /* margin-bottom: .5em; */
+}
+
+h3 {
+  font-family: 'Ledger', serif;
+  font-size: 15px;
+  background-color: lightgray;
+  margin: 0 0 .5em 0;
+  border-radius: 3px;
+  padding: .3em;
+}
+
+legend {
+  font-family: 'Ledger', serif;
+  font-size: 14px;
+  padding: 0;
+}
+/* pending appts */
+
+.pending-appts-container {
+  width: 85vw;
   margin: auto;
 }
 
-.services-li {
-  /* margin-right: 2.5rem; */
+.pending-appts-container h1 {
+  margin-left: auto;
 }
 
-iframe {
+.pending-appts-column-header {
+  padding: 1.5em 0px;
+  display: grid;
+  grid-template-columns: 100px 191px 100px 280px 100px 100px 100px 300px;
+  border-bottom: 1px solid lightgray;
+}
+
+.pending-appts {
+  display: grid;
+  grid-template-columns: 100px 191px 100px 280px 100px 100px 100px 150px 70px 70px;
+  padding: 1em 0;
+}
+
+
+.pending-appts-container li{
+  border-bottom: 1px solid lightgray;
+}
+
+.pending-appts img {
+  width: 100px;
+  height:100px;
+}
+
+.pending-appts button {
+  width: 60px;
+  height: 30px;
+  margin-right: 10px;
+  color: black;
+  font-size: 1em;
+}
+
+.deny-button {
+  background-color: white;
+}
+
+/* services component (customer) */
+
+.service-tables-container {
+  display: grid;
+  grid-template-columns: 600px 600px;
+  justify-content: center;
+  position: relative;
+  top: 5em;
+}
+
+table {
+  border-spacing: 0;
+  /* margin: auto; */
+}
+
+.service-heading {
+  font-family: 'Ledger', serif;
+  font-size: 22px;
+  margin-bottom: 1em;
+  text-align: right;
+}
+
+.color-heading {
+  position: relative;
+  right: 15px;
+}
+
+.haircut-heading {
+  position: relative;
+  right: 5px;
+}
+
+.additional-heading {
+  position: relative;
+  right: 5px;
+}
+
+.haircut-table {
+  margin: auto;
+  position: relative;
+  bottom: 40px;
+}
+
+.color-table {
+  margin: auto;
+}
+
+.perm-table {
+  margin: auto;
+  position: relative;
+  bottom: 15px;
+}
+
+.additional-table {
+  margin: auto;
+}
+
+
+.service-tables-container table {
+  margin: 7.5em;
+  text-align: center;
+}
+
+
+.service-tables-container td {
+  line-height: 1.4em;
+  padding-right: 3.5em;
+}
+
+.service-tables-container img{
+  height: 360px;
+  border-bottom: 12px double gray;
+  border-top: 12px double gray;
+  box-sizing: border-box;
+  margin: auto;
+  display: block;
+}
+
+/* service image overlay */
+
+.service-image:hover .table-img-overlay-right {
+  width: 100%;
+  left: 0;
+}
+
+.table-img-overlay-right {
+  position: relative;
+  bottom: 22.8em;
+  left: 100%;
+  right: 0;
+  background-color: lightgray;
+  opacity: .3;
+  overflow: hidden;
+  width: 0;
+  height: 99%;
+  transition: .5s ease;
+}
+
+.service-image:hover .table-img-overlay-left {
+  width: 100%;
+}
+
+.table-img-overlay-left {
+  position: relative;
+  bottom: 22.8em;
+  right: 0;
+  background-color: lightgray;
+  opacity: .3;
+  overflow: hidden;
+  width: 0;
+  height: 99%;
+  transition: .5s ease;
+}
+
+.service-image:hover .table-img-overlay-color {
+  width: 100%;
+}
+
+.table-img-overlay-color {
+  position: relative;
+  bottom: 22.75em;
+  right: 0;
+  background-color: lightgray;
+  opacity: .3;
+  overflow: hidden;
+  width: 0;
+  height: 94%;
+  transition: .5s ease;
+}
+
+
+.table-img-overlay-text {
+  white-space: nowrap; 
+  color: black;
+  font-size: 40px;
+  font-family: 'Ledger', serif;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+/* appointment details modal */
+.modal {
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgb(0,0,0);
+background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.edit-appt-modal {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; 
+}
+
+.edit-appt-modal-table {
+  margin: auto;
+  text-align: left;
+  padding: 2em;
+  border: 1px solid lightgray;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.edit-appt-modal-td {
+  padding-right: 2em;
+}
+
+.edit-appt-modal-buttons {
+  margin-top: 1em;
+}
+
+.edit-appt-modal td {
+  padding: .5em 1em;
+}
+
+.edit-appt-modal tr:nth-child(even) {
+  background-color: #E8E8E8;
+  color: #4863A0;
+}
+
+.edit-appt-modal tr:first-child {
+  font: 20px Ledger;
+}
+
+.edit-appt-button {
+  width: 150px;
+  margin-right: 40px;
+}
+
+.delete-appt-button {
+  background-color: #CD5C5C;
+  width: 150px;
+}
+
+.close-modal-button {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+/* visit us */
+
+address {
+  font-style: normal;
+  text-align: center;
+  line-height: 1.6em;
+  margin-bottom: 1em;
+  font-family: 'Ledger', serif;
+  background-color: lightgray;
   width: 600px;
+  padding: .7em 0 .7em;
+  box-sizing: border-box;
+  border: 5px double black;
+}
+
+.visit-us {
+  display: grid;
+  grid-template-columns: 600px 600px;
+  grid-gap: 1em;
+  justify-content: center;
+  margin-top: 4em;
+  position: relative;
+  top: 1.5em;
+  box-sizing: content-box;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contact-info img {
+  height: 400px;
+  width: 600px;
+}
+
+.say-hi {
+  border: 1px solid gray;
+  background-color: lightgray;
+  /* color: white; */
+  font-family: 'Ledger', serif;
+  width: 550px;
+  height: 100px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 1em;
+}
+
+.visit-us-right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.say-hi p {
+  margin-top: 2em;
+}
+
+/* google maps */
+
+iframe {
+  display: inline-flex;
+  width: 550px;
   height:450px;
   border-style: none;
   frameborder: 0;
 }
+

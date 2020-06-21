@@ -6,7 +6,7 @@ function apptDetails(props) {
   const { customer_name, stylist, hair_services, appt_date, appt_time, email, telephone, textable, notes, pictures, id, price, duration_hours, duration_minutes } = props.apptDetails;
 
   const details = {
-    'Customer Name': customer_name,
+    'Customer': customer_name,
     'Service': hair_services,
     'Stylist': stylist,
     'Date': moment(appt_date).format('LL'),
@@ -32,9 +32,8 @@ function apptDetails(props) {
   }
 
   const autofill = () => {
-    props.editAppt();
     setTimeout(() => {
-      let details = props.apptDetails;
+      const details = this.state.apptDetails;
       for (const key in details) {
         if (details[key] === null) {
           continue;
@@ -48,11 +47,13 @@ function apptDetails(props) {
         if (key === 'appt_time') {
           details[key] = moment(details[key], 'h:mm A').format('HH:mm:ss');
         }
-        if (key === 'telephone') {
-          let telephone = details[key].toString().split('');
-          telephone.splice(3, 0, '-');
-          telephone.splice(7, 0, '-');
-          details[key] = telephone.join('');
+        if (key === 'hair_services') {
+          let services = details[key];
+          services = services.replace(/"|{|}/g, '').split(',');
+          for (let key of services) {
+            document.getElementById(key).checked = true;
+          }
+          continue;
         }
         if (key === 'textable') {
           if (details[key] === 'true') {
@@ -65,25 +66,33 @@ function apptDetails(props) {
         }
         document.getElementById(key).value = details[key];
       }
-    }, 10);
+    }, 10)
   }
 
   const deleteAppt = () => {
     axios.put(`/appointments?status=deleted`, props.apptDetails)
   }
 
+  const closeModal = () => {
+    document.getElementsByClassName('modal')[0].style.display = 'none';
+  }
+
   if (props.apptDetails) {
     return (
       <div className='modal'>
         <div className='edit-appt-modal'>
-          <button className='close-modal-button' onClick={closeModal}>&#x2715;</button>
+          <div className='close-modal-button'>
+            <button onClick={closeModal}>&#x2715;</button>
+          </div>
           <table className='edit-appt-modal-table'>
             <tbody>
               {tableRows}
             </tbody>
           </table>
-          <button id={id} className='edit-appt-button' onClick={autofill}>Edit Appointment</button>
-          <button id={id} className='delete-appt-button' onClick={deleteAppt}>Delete Appointment</button>
+          <div className='center edit-appt-modal-buttons'>
+            <button id={id} className='button edit-appt-button' onClick={autofill}>Edit Appointment</button>
+            <button id={id} className='button delete-appt-button' onClick={deleteAppt}>Delete Appointment</button>
+          </div>
         </div>
       </div>
     );
