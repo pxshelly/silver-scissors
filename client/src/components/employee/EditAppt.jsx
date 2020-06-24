@@ -1,10 +1,10 @@
 import React from 'react';
-import ApptForm from './ApptForm.jsx';
+import ApptFormModal from './ApptFormModal.jsx';
 
 const editAppt = props => {
   if (props.editState) {
     return (
-      <ApptForm editAppt={props.editState}/>
+      <ApptFormModal apptDetails={props.apptDetails} />
     );
   }
   return null;
