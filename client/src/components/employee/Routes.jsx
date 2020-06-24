@@ -5,10 +5,12 @@ import ApptForm  from './ApptForm.jsx';
 import PendingAppts from './PendingAppts.jsx';
 import Login from '../shared/Login.jsx';
 import Logout from '../shared/Logout.jsx';
+import Homepage from './Homepage.jsx';
 
 function Routes(props) {
   return (
     <Switch>
+      <Route exact path="/" component={Homepage} />
       <Route exact path="/calendar" render={() => {
         if (props.loggedIn) {
           return <Calendar />
