@@ -78,7 +78,7 @@ class ApptForm extends React.Component {
     const data = {
       customer_name: this.state.customer_name || document.getElementById('customer_name').value,
       stylist: this.state.stylist || document.getElementById('stylist').value,
-      hair_service: this.state.hair_services || document.getElementById('hair_services').value,
+      hair_services: this.state.hair_services || document.getElementById('hair_services').value,
       appt_date: this.state.appt_date || document.getElementById('appt_date').value,
       appt_time: this.state.appt_time || document.getElementById('appt_time').value,
       email: this.state.email || document.getElementById('email').value,
@@ -157,7 +157,7 @@ class ApptForm extends React.Component {
             type: 'radio',
             name: 'textable',
             required: 'required',
-            // className: 'appt-form-input'
+            className: 'appt-form-radio'
           }
         }
         ]
@@ -286,7 +286,7 @@ class ApptForm extends React.Component {
     const fields = formFields.map((field, i) => {
       return (
         <fieldset key={i}>
-          <legend>{field.legend}</legend>
+          <h3>{field.legend}</h3>
           {field.fields.map((element, i) => {
             if (element.elementAttributes.name === 'textable') {
               return (
@@ -345,13 +345,13 @@ class ApptForm extends React.Component {
 
   render() {
     return (
-      <div className='appt-form-container' >
+      <div className='appt-form-container employee-appt-form-container' >
         <img src='https://silver-scissors.s3-us-west-1.amazonaws.com/IMG_6031.jpg' />
         <form onSubmit={(e) => this.handleSubmit(e)} className='appt-form' onChange={(e) => this.handleChange(e)}>
           {this.createFields()}
           <button className='appt-form-submit-button'>Submit</button>
         </form>
-      </div >
+      </div>
     );
   }
 }
