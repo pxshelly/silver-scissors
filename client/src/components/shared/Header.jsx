@@ -10,11 +10,11 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/login-status') 
+    axios.get('http://localhost:3000/login-status')
       .then((result) => {
         const { data: { loggedIn = false } = {} } = result;
         if (loggedIn) {
-          this.setState({loggedIn: true})
+          this.setState({ loggedIn: true })
         }
       })
   }
@@ -22,12 +22,20 @@ class Header extends React.Component {
   render() {
     return (
       <div className='header-container'>
-        <a href='/' className='title-container'>
-          <h1>Silver Scissors</h1>
-          <h2>hair salon</h2>
-        </a>
-        <a href='/auth/facebook'>{this.state.loggedIn ? 'Welcome' : 'Sign In'}</a>
-        <a href='/logout'>Sign Out</a>
+        <div className='header'>
+          <a href='/' className='title-container'>
+            <h1>Silver Scissors</h1>
+            <h2>hair salon</h2>
+          </a>
+        </div>
+        <div className='login-container'>
+          <a href='/auth/facebook'>
+            <button className='button sign-in-button'>{this.state.loggedIn ? 'Welcome!' : 'Sign In'}</button>
+          </a>
+          <a href='/logout'>
+            <button className='button'>Sign Out</button>
+          </a>
+        </div>
       </div>
     )
   }
