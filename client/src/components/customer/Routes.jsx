@@ -6,7 +6,8 @@ import ApptForm from './ApptForm.jsx';
 import ApptPage from './ApptPage.jsx';
 import Login from '../shared/Login.jsx';
 import Logout from '../shared/Logout.jsx';
-import Homepage from '../shared/Homepage.jsx'
+import Homepage from './Homepage.jsx'
+import ApptConfirmation from './ApptConfirmation.jsx';
 
 function Routes() {
   return (
@@ -16,6 +17,7 @@ function Routes() {
       <Route exact path="/request-appointment" component={ApptForm} />
       <Route exact path="/visit-us" component={VisitUs} />
       <Route exact path="/my-appointments" component={ApptPage} />
+      <Route exact path="/appointment-confirmation" component={ApptConfirmation} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/logged-out" component={Logout} />
     </Switch>
