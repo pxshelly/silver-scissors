@@ -75,7 +75,7 @@ class Calendar extends React.Component {
     // create td tags for each day in month
     const allDays = [];
     for (let i = 1; i <= this.state.daysInMonth; i++) {
-      allDays.push(<td key={i} onClick={(e) => this.selectDate(e)}><span>{i}</span></td>);
+      allDays.push(<td key={i} className='calendar-day pointer-cursor' onClick={(e) => this.selectDate(e)}><span>{i}</span></td>);
     }
 
     // combine blank spaces with number of days and create rows for each week
@@ -116,18 +116,20 @@ class Calendar extends React.Component {
     return (
       <div>
         <div className='calendar-container'>
-          <div className='calendar-year'>{this.state.year}</div>
+          <div className='calendar-year bold'>{this.state.year}</div>
           <div className='calendar-header'>
-            <span className='calendar-header-contents' onClick={this.lastMonth}>{'<'}</span>
-            <span className='calendar-header-contents'>{this.state.month}</span>
-            <span className='calendar-header-contents' onClick={this.nextMonth}>{'>'}</span>
+            <span className='calendar-header-contents pointer-cursor' onClick={this.lastMonth}>{'<'}</span>
+            <span className='calendar-header-contents bold'>{this.state.month}</span>
+            <span className='calendar-header-contents pointer-cursor' onClick={this.nextMonth}>{'>'}</span>
           </div>
-          <table className='calendar-table'>
-            <tbody>
-              <tr>{this.getWeekdays()}</tr>
-              {this.loadCalendar()}
-            </tbody>
-          </table>
+          <div>
+            <table className='calendar-table'>
+              <tbody>
+                <tr>{this.getWeekdays()}</tr>
+                {this.loadCalendar()}
+              </tbody>
+            </table>
+          </div>
         </div>
         <Schedule
           date={this.state.date}
