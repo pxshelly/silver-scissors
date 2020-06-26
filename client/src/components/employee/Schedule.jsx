@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import EditAppt from './EditAppt.jsx';
-import ApptDetails from './ApptDetails.jsx';
+import moment from 'moment';
 
 class Schedule extends React.Component {
   constructor(props) {
@@ -12,9 +12,11 @@ class Schedule extends React.Component {
       appts: [],
       editAppt: false,
       error: ''
-    }
+    };
     this.getApptDetails = this.getApptDetails.bind(this);
     this.editAppt = this.editAppt.bind(this);
+    this.loadApptDetails = this.loadApptDetails.bind(this);
+    this.closeApptDetailsModal = this.closeApptDetailsModal.bind(this);
   }
 
   loadSchedule() {
@@ -95,22 +97,100 @@ class Schedule extends React.Component {
       .catch((error) => this.setState({ error: error }));
   }
 
+  loadApptDetails() {
+    const { customer_name, stylist, hair_services, appt_date, appt_time, email, telephone, textable, notes, pictures, id, price, duration_hours, duration_minutes } = this.state.apptDetails;
+
+    const details = {
+      'Customer': customer_name,
+      'Service': hair_services.replace(/"|{|}|:true/g, '').split(',').join(', '),
+      'Stylist': stylist,
+      'Date': moment(appt_date).format('LL'),
+      'Time': appt_time,
+      'Email': email,
+      'Telephone': telephone,
+      'Can we text this number?': textable,
+      'Notes': notes,
+      'Pictures': pictures,
+      'Price': price,
+      'Hours': duration_hours,
+      'Minutes': duration_minutes
+    }
+
+    const tableRows = [];
+    for (const key in details) {
+      tableRows.push(
+        <tr key={key}>
+          <td className='edit-appt-modal-td'>{key}</td>
+          <td>{details[key]}</td>
+        </tr>
+      );
+    }
+
+    return tableRows;
+  }
+
+  closeApptDetailsModal() {
+    this.setState({
+      apptDetails: false
+    });
+  }
+
   editAppt() {
     this.setState({ editAppt: !this.state.editAppt });
   }
 
+  deleteAppt() {
+    const confirmation = confirm('Are you sure you want to delete this appointment?');
+    if (confirmation) {
+      axios.put(`/appointments?status=deleted`, props.apptDetails);
+    }
+  }
+
   render() {
-    return (
-      <div>
-        <div>Today's Appointments: {this.state.appts.length} {this.renderAppts()}</div>
-        <h2 className='times-header'>{this.props.selectedMonth} {this.props.date}, {this.props.selectedYear}</h2>
-        <div className='times-container'>
-          {this.loadSchedule()}
+    if (this.state.apptDetails) {
+      return (
+        <div>
+          <div className='modal'>
+            <div className='edit-appt-modal'>
+              <div className='close-modal-button'>
+                <button onClick={this.closeApptDetailsModal}>&#x2715;</button>
+              </div>
+              <table className='edit-appt-modal-table'>
+                <tbody>
+                  {this.loadApptDetails()}
+                </tbody>
+              </table>
+              <div className='center edit-appt-modal-buttons'>
+                <button id={this.state.apptDetails.id} className='button edit-appt-button' onClick={this.editAppt}>Edit Appointment</button>
+                <button id={this.state.apptDetails.id} className='button delete-appt-button' onClick={this.deleteAppt}>Delete Appointment</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className='today-info'>
+              <div>Today's Appointments: {this.state.appts.length} {this.renderAppts()}</div>
+              <h2 className='times-header'>{this.props.selectedMonth} {this.props.date}, {this.props.selectedYear}</h2>
+            </div>
+            <div className='times-container'>
+              {this.loadSchedule()}
+            </div>
+            <EditAppt editState={this.state.editAppt} apptDetails={this.state.apptDetails} />
+          </div>
         </div>
-        <EditAppt editState={this.state.editAppt} />
-        <ApptDetails apptDetails={this.state.apptDetails} editAppt={this.editAppt} />
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <div className='today-info'>
+            <div>Today's Appointments: {this.state.appts.length} {this.renderAppts()}</div>
+            <h2 className='times-header'>{this.props.selectedMonth} {this.props.date}, {this.props.selectedYear}</h2>
+          </div>
+          <div className='times-container'>
+            {this.loadSchedule()}
+          </div>
+        </div>
+      );
+    }
   }
 }
 
