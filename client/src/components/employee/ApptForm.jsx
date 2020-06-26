@@ -9,7 +9,7 @@ class ApptForm extends React.Component {
     this.state = {
       customer_name: '',
       stylist: 'No Preference',
-      hair_services: [],
+      hair_services: {},
       appt_date: '',
       appt_time: '',
       email: '',
@@ -26,7 +26,6 @@ class ApptForm extends React.Component {
   }
 
   handleChange(e) {
-    const hairServices = [];
     const services = {
       'Women Haircut': true,
       'Men Haircut': true,
@@ -57,9 +56,14 @@ class ApptForm extends React.Component {
       id = 'textable';
     }
     if (services[id]) {
-      hairServices.push(id);
+      let updatedHairServices = { ...this.state.hair_services };
+      if (!this.state.hair_services[id]) {
+        updatedHairServices[id] = true;
+      } else {
+        delete updatedHairServices[id];
+      }
       id = 'hair_services';
-      value = [...this.state.hair_services, ...hairServices];
+      value = updatedHairServices;
     }
     this.setState({
       [id]: value
@@ -95,7 +99,8 @@ class ApptForm extends React.Component {
       data.id = id;
       axios.put(`/appointments?status=approved`, data);
     } else {
-      axios.post('/appointments?status=approved', data);
+      axios.post('/appointments?status=approved', data)
+        .then(window.location = '/calendar');
     }
   }
 
@@ -141,7 +146,6 @@ class ApptForm extends React.Component {
           elementAttributes: {
             type: 'tel',
             id: 'telephone',
-            pattern: '[0-9]{3}-[0-9]{3}-[0-9]{4}',
             placeholder: 'xxx-xxx-xxxx',
             required: 'required',
             className: 'appt-form-telephone'

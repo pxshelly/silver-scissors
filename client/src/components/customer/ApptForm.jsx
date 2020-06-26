@@ -9,7 +9,7 @@ class ApptForm extends React.Component {
     this.state = {
       customer_name: '',
       stylist: 'No Preference',
-      hair_services: [],
+      hair_services: {},
       appt_date: '',
       appt_time: '',
       email: '',
@@ -26,7 +26,6 @@ class ApptForm extends React.Component {
   }
 
   handleChange(e) {
-    const hairServices = [];
     const services = {
       'Women Haircut': true,
       'Men Haircut': true,
@@ -57,9 +56,14 @@ class ApptForm extends React.Component {
       id = 'textable';
     }
     if (services[id]) {
-      hairServices.push(id);
+      let updatedHairServices = { ...this.state.hair_services };
+      if (!this.state.hair_services[id]) {
+        updatedHairServices[id] = true;
+      } else {
+        delete updatedHairServices[id];
+      }
       id = 'hair_services';
-      value = [...this.state.hair_services, ...hairServices];
+      value = updatedHairServices;
     }
     this.setState({
       [id]: value
@@ -78,24 +82,22 @@ class ApptForm extends React.Component {
     const data = {
       customer_name: this.state.customer_name || document.getElementById('customer_name').value,
       stylist: this.state.stylist || document.getElementById('stylist').value,
-      hair_service: this.state.hair_services || document.getElementById('hair_services').value,
+      hair_services: this.state.hair_services || document.getElementById('hair_services').value,
       appt_date: this.state.appt_date || document.getElementById('appt_date').value,
       appt_time: this.state.appt_time || document.getElementById('appt_time').value,
       email: this.state.email || document.getElementById('email').value,
       telephone: this.state.telephone || document.getElementById('telephone').value,
       textable: this.state.textable || textable,
       notes: this.state.notes || document.getElementById('notes').value,
-      pictures: this.state.pictures || document.getElementById('pictures').value,
-      price: Number(this.state.price) || Number(document.getElementById('price').value),
-      duration_hours: Number(this.state.duration_hours) || Number(document.getElementById('duration_hours').value),
-      duration_minutes: Number(this.state.duration_minutes) || Number(document.getElementById('duration_minutes').value),
+      pictures: this.state.pictures || document.getElementById('pictures').value
     };
     if (this.props.editAppt) {
       const id = document.getElementsByClassName('edit-appt-button')[0].getAttribute('id');
       data.id = id;
       axios.put(`/appointments?status=approved`, data);
     } else {
-      axios.post('/appointments?status=approved', data);
+      axios.post('/appointments?status=pending', data)
+        .then(window.location = '/appointment-confirmation')
     }
   }
 
@@ -141,7 +143,6 @@ class ApptForm extends React.Component {
           elementAttributes: {
             type: 'tel',
             id: 'telephone',
-            pattern: '[0-9]{3}-[0-9]{3}-[0-9]{4}',
             placeholder: 'xxx-xxx-xxxx',
             required: 'required',
             className: 'appt-form-telephone'
