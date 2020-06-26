@@ -77,7 +77,7 @@ nav a {
 }
 
 .employee-nav {
-  margin: 1em 0px 2em 27vw;
+  margin: 1em 0px .75em 22vw;
 }
 
 li {
@@ -102,9 +102,10 @@ a:hover {
 }
 
 button {
-  border-color: rgba(0,0,0,0);
   cursor: pointer;
   font-family: helvetica;
+  border-radius: 4px;
+  border: none;
 }
 
 button:focus {
@@ -136,24 +137,57 @@ button:hover {
   margin-top: -15px;
 }
 
-.login-container{
+.login-container {
   align-self: flex-end;
+}
 
+.sign-in-modal {
+  background-color: white;
+  margin: 5% auto; 
+  padding: 40px;
+  width: 60%;
+  height: 75%;
+
+}
+.sign-in-modal-content {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-items: end;
+  border: 2px solid lightgray;
+  column-gap: -4em;
+}
+
+.sign-in-pic {
+  width: 30vw;
+  margin: auto;
+}
+
+.sign-in-button-container {
+  margin: auto;
+}
+
+.sign-in-left {
+  margin: auto;
+}
+
+.sign-in-right {
+  justify-items: end;
 }
 
 .sign-in-button-modal {
-  position: relative;
-  /* left: 45vw; */
   padding: 4px 15px;
   background-color: white;
-  border: 1px solid #000;
-  display: inline-block;
-  bottom: 4em;
+  width: 265px;
+  height: 50px;
+  border: 1px solid black;
+}
+
+.sign-in-button-modal:hover{
+  background-color: lightgray;
 }
 
 .button {
   background: lightgray;
-  border-radius: 4px;
   height: 30px;
   width: 70px;
   font-size: 12px;
@@ -163,11 +197,17 @@ button:hover {
   margin-right: 8px;
 }
 
-.opening-content {
+.opening-content-customer {
   display: block;
   margin: 0;
   position: relative;
   top: 3em;
+}
+
+.opening-content-employee {
+  display: block;
+  margin: 0;
+  position: relative;
 }
 
 .opening-content img {
@@ -186,6 +226,7 @@ button:hover {
 }
 
 /* create appointment component in dashboard */
+
 .add-appt-form-container {
   padding-top:10%;
   position: fixed;
@@ -194,7 +235,7 @@ button:hover {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+  background-color: rgba(0,0,0,0.5);
 }
 
 .add-appt-form {
@@ -312,8 +353,6 @@ padding-bottom: 2em;
   flex-direction: column;
   justify-content: center;
   line-height: 2em;
-  /* padding: 1em; */
-  /* border: 1px solid gray; */
 }
 
 .appt-form-label {
@@ -366,6 +405,7 @@ select {
   height: 2.2em;
   margin-top: 1em;
 }
+
 /* services options menu */
 
 .service-option-container {
@@ -378,13 +418,10 @@ select {
   vertical-align: top;
   padding-bottom: 0;
   padding-right: 0;
-  /* margin: 0; */
   width: 200px;
   height: 150px;
-  /* border: 1px solid gray; */
   font-size: 10px;
   line-height: 4em;
-  /* font-weight: lighter; */
   border: none;
 }
 
@@ -405,12 +442,9 @@ select {
 }
 
 fieldset {
-  /* border: 1px solid gray; */
-  /* display: inline; */
   padding: 0;
   margin: 0;
   border: none;
-  /* margin-bottom: .5em; */
 }
 
 h3 {
@@ -427,10 +461,11 @@ legend {
   font-size: 14px;
   padding: 0;
 }
+
 /* pending appts */
 
 .pending-appts-container {
-  width: 85vw;
+  width: 95vw;
   margin: auto;
 }
 
@@ -439,18 +474,24 @@ legend {
 }
 
 .pending-appts-column-header {
-  padding: 1.5em 0px;
+  padding: 1.5em 1em;
   display: grid;
-  grid-template-columns: 100px 191px 100px 280px 100px 100px 100px 300px;
+  grid-template-columns: 85px 130px 75px 280px 60px 280px 100px 300px;
+  column-gap: 1em;
   border-bottom: 1px solid lightgray;
 }
 
 .pending-appts {
   display: grid;
-  grid-template-columns: 100px 191px 100px 280px 100px 100px 100px 150px 70px 70px;
-  padding: 1em 0;
+  grid-template-columns: 85px 130px 75px 280px 60px 280px 100px 70px 60px 60px;
+  padding: 1em;
+  column-gap: 1em;
+  box-sizing: border-box;
 }
 
+.pending-appts:nth-child(odd) {
+  background-color: #E8E8E8;
+}
 
 .pending-appts-container li{
   border-bottom: 1px solid lightgray;
@@ -464,13 +505,30 @@ legend {
 .pending-appts button {
   width: 60px;
   height: 30px;
-  margin-right: 10px;
   color: black;
-  font-size: 1em;
+  padding: 2px 0;
+  font-size: 14px;
+}
+
+.edit-button {
+  background-color: #ADDFFF;
+  font-size: 12px;
+}
+
+.accept-button {
+  background-color: #89C35C;
 }
 
 .deny-button {
-  background-color: white;
+  background-color: #CD5C5C;
+}
+
+.pending-appt-modal {
+  background-color: #fefefe;
+  margin: 1% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
 }
 
 /* services component (customer) */
@@ -485,7 +543,6 @@ legend {
 
 table {
   border-spacing: 0;
-  /* margin: auto; */
 }
 
 .service-heading {
@@ -529,7 +586,6 @@ table {
 .additional-table {
   margin: auto;
 }
-
 
 .service-tables-container table {
   margin: 7.5em;
@@ -618,6 +674,7 @@ table {
 }
 
 /* appointment details modal */
+
 .modal {
 position: fixed;
 z-index: 1;
@@ -632,7 +689,7 @@ background-color: rgba(0,0,0,0.4);
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; 
+  margin: 5% auto; 
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
@@ -644,6 +701,7 @@ background-color: rgba(0,0,0,0.4);
   padding: 20px;
   border: 1px solid #888;
   width: 70%; 
+  z-index: 1;
 }
 
 .edit-appt-modal-table {
@@ -734,7 +792,6 @@ address {
 .say-hi {
   border: 1px solid gray;
   background-color: lightgray;
-  /* color: white; */
   font-family: 'Ledger', serif;
   width: 550px;
   height: 100px;
@@ -762,3 +819,37 @@ iframe {
   frameborder: 0;
 }
 
+/* logout */
+
+.logout {
+  margin: auto;
+  width: 75%;
+  text-align: center;
+  padding: 20px 0;
+  border: 8px solid lightgray;
+}
+
+.logout-text {
+  font-size: 14px;
+}
+
+.logout-pic {
+  width: 775px;
+  padding-top: 10px;
+}
+
+/* appointment confirmation */
+
+.confirmation {
+  top: 4em;
+  position: relative;
+  text-align: center;
+  width: 80%;
+  margin: auto;
+  padding: 2em 0;
+}
+
+.confirmation-pic {
+  padding-top: 20px;
+  width: 850px;
+}

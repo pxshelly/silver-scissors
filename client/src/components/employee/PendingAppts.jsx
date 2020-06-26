@@ -20,7 +20,13 @@ class PendingAppts extends React.Component {
 
   componentDidMount() {
     axios.get('appointments?status=pending')
-      .then(result => this.setState({ pendingAppts: result.data }))
+      .then(result => {
+        result.data.map((appt, i) => {
+          console.log(appt)
+          appt.hair_services = appt.hair_services.replace(/"|{|}|:true/g, '').split(',').join(', ');
+        });
+        this.setState({ pendingAppts: result.data })
+      })
       .catch(error => this.setState({ error: error }));
   }
 
@@ -29,7 +35,10 @@ class PendingAppts extends React.Component {
   }
 
   denyAppt(index) {
-    axios.put('/appointments?status=denied', this.state.pendingAppts[index]);
+    const confirmation = confirm('Are you sure you want to delete this appointment?');
+    if (confirmation) {
+      axios.put('/appointments?status=denied', this.state.pendingAppts[index]);
+    }
   }
 
   autofill() {
@@ -48,11 +57,13 @@ class PendingAppts extends React.Component {
         if (key === 'appt_time') {
           details[key] = moment(details[key], 'h:mm A').format('HH:mm:ss');
         }
-        if (key === 'telephone') {
-          let telephone = details[key].toString().split('');
-          telephone.splice(3, 0, '-');
-          telephone.splice(7, 0, '-');
-          details[key] = telephone.join('');
+        if (key === 'hair_services') {
+          let services = details[key];
+          services = services.replace(/"|{|}|:true/g, '').split(', ');
+          for (let key in services) {
+            document.getElementById(key).checked = true;
+          }
+          continue;
         }
         if (key === 'textable') {
           if (details[key] === 'true') {
@@ -77,7 +88,7 @@ class PendingAppts extends React.Component {
 
   displayHeaders() {
     const headers = ['Date', 'Customer Name', 'Time', 'Service', 'Stylist', 'Notes', 'Pictures', 'Approve/Deny'];
-    return headers.map((header, i) => <span key={i} className='pending-appts-header'>{header}</span>);
+    return headers.map((header, i) => <span key={i} className=''>{header}</span>);
   }
 
   renderAppts() {
@@ -93,8 +104,8 @@ class PendingAppts extends React.Component {
           <span>
             {appt.pictures ? <img src={appt.pictures} /> : ''}
           </span>
-          <button onClick={() => this.editAppt(i)}>Edit</button>
-          <button onClick={() => this.approveAppt(i)}>&#x2713;</button>
+          <button onClick={() => this.editAppt(i)} className='edit-button'>Edit</button>
+          <button onClick={() => this.approveAppt(i)} className='accept-button'>&#x2713;</button>
           <button onClick={() => this.denyAppt(i)} className='deny-button'>&#x2715;</button>
         </li>
       );
@@ -105,12 +116,11 @@ class PendingAppts extends React.Component {
     return (
       <div className='pending-appts-container'>
         <h1>Pending Appointments</h1>
-        <div className='pending-appts-header'> {this.displayHeaders()}</div>
+        <div className='pending-appts-column-header'> {this.displayHeaders()}</div>
         <ul>
           {this.state.pendingAppts.length === 0 ? <p>There are no pending appointments</p> : this.renderAppts()}
         </ul>
-        <EditAppt editState={this.state.editAppt} />
-        {/* <ApptDetails apptDetails={this.state.apptDetails} editAppt={this.editAppt} /> */}
+        <EditAppt editState={this.state.editAppt} apptDetails={this.state.apptDetails} />
       </div>
     );
 
