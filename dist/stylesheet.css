@@ -470,10 +470,13 @@ legend {
 }
 
 .pending-appts-container h1 {
+  padding: .5em 0;
   margin-left: auto;
+  border-bottom: 2px solid black;
 }
 
 .pending-appts-column-header {
+  margin-top: 1em;
   padding: 1.5em 1em;
   display: grid;
   grid-template-columns: 85px 130px 75px 280px 60px 280px 100px 300px;
@@ -511,7 +514,7 @@ legend {
 }
 
 .edit-button {
-  background-color: #ADDFFF;
+  background-color: lightblue;
   font-size: 12px;
 }
 
@@ -852,4 +855,95 @@ iframe {
 .confirmation-pic {
   padding-top: 20px;
   width: 850px;
+}
+
+/* dashboard */
+
+.dashboard-flex {
+  display: flex;
+  padding: 2em;
+}
+
+.dashboard {
+  margin: 2em;
+}
+
+.dashboard h2 {
+  font: 1.5em helvetica;
+  padding-bottom: 1em;
+  font-weight: 600;
+}
+
+.dashboard-date {
+  padding: .5em;
+  border-bottom: 2px solid black;
+}
+
+/* service chart */
+
+.bar-graph-count {
+  background-color: lightblue;
+  padding-left: 20px;
+}
+
+.bar-graph-content {
+  display: grid;
+  grid-template-columns: 500px 30px;
+}
+
+.bar-graph-container {
+  border: 2px solid lightgray;
+  width: 40vw;
+  margin: 2em 5em 3em 2em;
+  padding: 2em;
+}
+
+.service-title {
+  padding-right: 50px;
+}
+
+/* appointment list */
+
+.appt-grid {
+  display: grid;
+  grid-template-columns: 150px 75px 275px 120px 250px 50px 120px 190px;
+  padding: 1em;
+  column-gap: .75em;
+}
+
+.appt-grid:nth-child(even) {
+  background-color: #E8E8E8;
+}
+
+.dashboard-appt-container {
+  padding: 1em;
+  font-size: 14px;
+}
+
+.dashboard-appt-header {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* number of appointments */
+
+.dashboard-number-title {
+  margin-bottom: 1em;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.dashboard-appt-count {
+  font-size: 50px;
+  text-align: center;
+  border-radius: 50%;
+  border: 4px solid gray;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-appt-count-container {
+  margin: 3em 10em;
 }
