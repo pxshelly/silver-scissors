@@ -151,8 +151,6 @@ const createUser = userOptions => {
       reject(new Error('No username provided'));
       return;
     }
-    userOptions.user_name = userOptions.username;
-    delete userOptions.username;
     userOptions.user_type = 'customer';
 
     for (let key in userOptions) {
