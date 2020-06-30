@@ -6,11 +6,13 @@ import PendingAppts from './PendingAppts.jsx';
 import Login from '../shared/Login.jsx';
 import Logout from '../shared/Logout.jsx';
 import Homepage from './Homepage.jsx';
+import Dashboard from './Dashboard.jsx';
 
 function Routes(props) {
   return (
     <Switch>
       <Route exact path="/" component={Homepage} />
+      <Route exact path="/home" component={Dashboard} />
       <Route exact path="/calendar" render={() => {
         if (props.loggedIn) {
           return <Calendar />

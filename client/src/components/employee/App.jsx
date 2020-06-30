@@ -22,6 +22,7 @@ class EmployeeApp extends React.Component {
 
   linkRoutes() {
     const routes = {
+      '/home': 'Home',
       '/calendar': 'Calendar',
       '/create-appointment': 'Create Appointment',
       '/pending-appointments': 'Pending Appointments'
@@ -40,7 +41,7 @@ class EmployeeApp extends React.Component {
       <div>
         <Header />
         <Router>
-          <nav>
+          <nav className='employee-nav'>
             {this.linkRoutes()}
           </nav>
           <Routes loggedIn={this.state.loggedIn} />
