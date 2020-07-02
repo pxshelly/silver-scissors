@@ -26,7 +26,7 @@ class CustomerApp extends React.Component {
     return (
       <div>
         <Router>
-          <div className='nav-container'>
+          <div className='nav-container customer-nav'>
             <nav>
               <a href='/'>silver scissors</a>
               {this.linkRoutes()}
