@@ -217,6 +217,7 @@ class ApptForm extends React.Component {
             id: 'appt_time',
             min: '09:00',
             max: '19:00',
+            step: '600',
             pattern: '[0-9]{2}:[0-9]{2}',
             required: 'required',
             className: 'appt-form-date-time'
