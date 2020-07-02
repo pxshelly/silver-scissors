@@ -5,28 +5,23 @@ const serviceTables = () => {
     <div className='service-tables-container'>
       <div className='haircut-table'>
         <table>
-          <thead>
-            <tr>
-              <th>Haircut</th>
-              <th>Price</th>
-            </tr>
-          </thead>
+          <h2 className='service-heading haircut-heading'>Haircut</h2>
           <tbody>
             <tr>
               <td>Women</td>
-              <td>$18 and up</td>
+              <td>$21+</td>
             </tr>
             <tr>
               <td>Men</td>
-              <td>$12</td>
+              <td>$15</td>
             </tr>
             <tr>
               <td>Girls (9 and under)</td>
-              <td>$15 and up</td>
+              <td>$15+</td>
             </tr>
             <tr>
               <td>Boys (9 and under)</td>
-              <td>$10</td>
+              <td>$13</td>
             </tr>
           </tbody>
         </table>
@@ -45,57 +40,47 @@ const serviceTables = () => {
           </div>
         </div>
         <table>
-          <thead>
-            <tr>
-              <th>Color</th>
-              <th>Price</th>
-            </tr>
-          </thead>
+          <h2 className='service-heading color-heading'>Color</h2>
           <tbody>
             <tr>
               <td>Women</td>
-              <td>$55 and up</td>
+              <td>$60+</td>
             </tr>
             <tr>
               <td>Men</td>
-              <td>$40</td>
+              <td>$50</td>
             </tr>
             <tr>
               <td>Highlights</td>
-              <td>$70 and up</td>
+              <td>$80+</td>
             </tr>
             <tr>
 
               <td>Balayage/Ombre</td>
-              <td>$150 and up</td>
+              <td>$150+</td>
             </tr>
             <tr>
               <td>Root Touch Up</td>
-              <td>$50</td>
+              <td>$55</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div className='perm-table'>
         <table>
-          <thead>
-            <tr>
-              <th>Perm</th>
-              <th>Price</th>
-            </tr>
-          </thead>
+          <h2 className='service-heading'>Perm</h2>
           <tbody>
             <tr>
               <td>Regular</td>
-              <td>$50 and up</td>
+              <td>$55+</td>
             </tr>
             <tr>
               <td>Digital</td>
-              <td>$100 and up</td>
+              <td>$120+</td>
             </tr>
             <tr>
               <td>Straight</td>
-              <td>$140 and up</td>
+              <td>$150+</td>
             </tr>
           </tbody>
         </table>
@@ -114,28 +99,23 @@ const serviceTables = () => {
           </div>
         </div>
         <table>
-          <thead>
-            <tr>
-              <th>Additional</th>
-              <th>Price</th>
-            </tr>
-          </thead>
+          <h2 className='service-heading additional-heading'>Additional</h2>
           <tbody>
             <tr>
+              <td>Shampoo</td>
+              <td>$3-8</td>
+            </tr>
+            <tr>
               <td>Shampoo and blow dry</td>
-              <td>$15</td>
+              <td>$15+</td>
             </tr>
             <tr>
               <td>Treatment</td>
-              <td>$35 and up</td>
+              <td>$40+</td>
             </tr>
             <tr>
               <td>Up-do</td>
-              <td>$40</td>
-            </tr>
-            <tr>
-              <td>Shampoo</td>
-              <td>$4</td>
+              <td>$45+</td>
             </tr>
           </tbody>
         </table>
