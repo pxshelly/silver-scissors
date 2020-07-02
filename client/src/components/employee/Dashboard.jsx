@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
     const servicesToday = {};
     let appts = this.state.appts;
     for (let i = 0; i < appts.length; i++) {
-      let serviceArr = appts[i].hair_services.replace(/"|{|}|:true/g, '').split(',');
+      let serviceArr = appts[i].hair_services.replace(/\\|"|{|}|:true/g, '').split(',');
       for (let j = 0; j < serviceArr.length; j++) {
         servicesToday[serviceArr[j]] = servicesToday[serviceArr[j]] ? servicesToday[serviceArr[j]] + 1 : 1
       }
@@ -89,11 +89,26 @@ class Dashboard extends React.Component {
 
     const apptList = [];
     for (let element of this.state.appts) {
+      if (element.textable === 'true') {
+        element.textable = 'Yes';
+      } else {
+        element.textable = 'No';
+      }
+
+      element.telephone = element.telephone.split('');
+      element.telephone.splice(3, 0, '-');
+      element.telephone.splice(7, 0, '-');
+      element.telephone = element.telephone.join('');
+
+      if (!element.price) {
+        element.price = ''; 
+      }
+
       apptList.push(
         <div className='appt-grid'>
           <div>{element.customer_name}</div>
           <div>{element.appt_time}</div>
-          <div className='hair-services-column'>{element.hair_services.replace(/"|{|}|:true/g, '')}</div>
+          <div className='hair-services-column'>{element.hair_services.replace(/\\|"|{|}|:true/g, '')}</div>
           <div>{element.stylist}</div>
           <div>{element.notes}</div>
           <div>{element.price}</div>
@@ -103,7 +118,7 @@ class Dashboard extends React.Component {
       );
     }
     return (
-      <div className='dashboard-appt-container'>
+      <div className='dashboard-appt-container' >
         <h2>Appointments</h2>
         <div className='appt-grid'>{columns}</div>
         {apptList}
