@@ -8,19 +8,19 @@ class ApptFormModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customer_name: '',
-      stylist: 'No Preference',
-      hair_services: [],
-      appt_date: '',
-      appt_time: '',
-      email: '',
-      telephone: '',
-      textable: false,
-      notes: '',
-      pictures: '',
-      price: 0,
-      duration_hours: 0,
-      duration_minutes: 0
+      customer_name: this.props.apptDetails.customer_name,
+      stylist: this.props.apptDetails.stylist,
+      hair_services: this.props.apptDetails.hair_services.replace(/\\|"|{|}|:true/g, ''),
+      appt_date: this.props.apptDetails.appt_date,
+      appt_time: this.props.apptDetails.appt_time,
+      email: this.props.apptDetails.email,
+      telephone: this.props.apptDetails.telephone,
+      textable: this.props.apptDetails.textable,
+      notes: this.props.apptDetails.notes,
+      pictures: this.props.apptDetails.pictures,
+      price: this.props.apptDetails.price,
+      duration_hours: this.props.apptDetails.duration_hours,
+      duration_minutes: this.props.apptDetails.duration_minutes
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +29,6 @@ class ApptFormModal extends React.Component {
   }
 
   handleChange(e) {
-    const hairServices = [];
     const services = {
       'Women Haircut': true,
       'Men Haircut': true,
@@ -56,17 +55,38 @@ class ApptFormModal extends React.Component {
     };
 
     let { id, value } = e.target;
+
     if (textable[id]) {
       id = 'textable';
     }
+
     if (services[id]) {
-      hairServices.push(id);
+      let updatedHairServices = {};
+
+      if (typeof this.state.hair_services === 'string') {
+        for (let element of this.state.hair_services.split(',')) {
+          updatedHairServices[element] = true;
+        }
+      } else {
+        updatedHairServices = { ...this.state.hair_services };
+      }
+
+      if (!updatedHairServices[id]) {
+        updatedHairServices[id] = true;
+      } else {
+        delete updatedHairServices[id];
+      }
+
       id = 'hair_services';
-      value = [...this.state.hair_services, ...hairServices];
+      value = updatedHairServices;
     }
     this.setState({
       [id]: value
     });
+  }
+
+  componentDidMount() {
+    this.autofill();
   }
 
   handleSubmit(e) {
@@ -144,7 +164,6 @@ class ApptFormModal extends React.Component {
           elementAttributes: {
             type: 'tel',
             id: 'telephone',
-            pattern: '[0-9]{3}-[0-9]{3}-[0-9]{4}',
             placeholder: 'xxx-xxx-xxxx',
             required: 'required',
             className: 'appt-form-telephone'
@@ -220,6 +239,7 @@ class ApptFormModal extends React.Component {
             id: 'appt_time',
             min: '09:00',
             max: '19:00',
+            step: '600',
             pattern: '[0-9]{2}:[0-9]{2}',
             required: 'required',
             className: 'appt-form-date-time'
@@ -347,7 +367,14 @@ class ApptFormModal extends React.Component {
   }
 
   closeModal() {
-    document.getElementsByClassName('modal')[0].style.display = 'none';
+    const confirmation = confirm('Are you sure you do not want to edit this appointment?');
+    if (confirmation) {
+      document.getElementsByClassName('pending-appt-modal')[0].style.display = 'none';
+      window.location='/calendar';  
+      this.setState({
+        apptDetails: false
+      });
+    }
   }
 
   autofill() {
@@ -368,7 +395,9 @@ class ApptFormModal extends React.Component {
         }
         if (key === 'hair_services') {
           let services = details[key];
-          services = services.replace(/"|{|}/g, '').split(',');
+          if (typeof services === 'string') {
+            services = services.replace(/\\|"|{|}|:true/g, '').split(',');
+          }
           for (let key of services) {
             document.getElementById(key).checked = true;
           }
@@ -402,7 +431,6 @@ class ApptFormModal extends React.Component {
               <button className='appt-form-submit-button'>Submit</button>
             </form>
           </div>
-          {this.autofill()}
         </div>
       </div>
     );
