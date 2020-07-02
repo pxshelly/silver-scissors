@@ -98,11 +98,25 @@ class Schedule extends React.Component {
   }
 
   loadApptDetails() {
-    const { customer_name, stylist, hair_services, appt_date, appt_time, email, telephone, textable, notes, pictures, id, price, duration_hours, duration_minutes } = this.state.apptDetails;
+    let { customer_name, stylist, hair_services, appt_date, appt_time, email, telephone, textable, notes, pictures, id, price, duration_hours, duration_minutes } = this.state.apptDetails;
+    if (textable === 'true') {
+      textable = 'Yes';
+    } else {
+      textable = 'No';
+    }
+
+    telephone = telephone.split('');
+    telephone.splice(3, 0, '-');
+    telephone.splice(7, 0, '-');
+    telephone = telephone.join('');
+
+    if (!price) {
+      price = ''; 
+    }
 
     const details = {
       'Customer': customer_name,
-      'Service': hair_services.replace(/"|{|}|:true/g, '').split(',').join(', '),
+      'Service': hair_services.replace(/\\|"|{|}|:true/g, '').split(',').join(', '),
       'Stylist': stylist,
       'Date': moment(appt_date).format('LL'),
       'Time': appt_time,
