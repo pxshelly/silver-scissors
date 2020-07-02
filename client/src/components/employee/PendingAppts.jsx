@@ -22,8 +22,7 @@ class PendingAppts extends React.Component {
     axios.get('appointments?status=pending')
       .then(result => {
         result.data.map((appt, i) => {
-          console.log(appt)
-          appt.hair_services = appt.hair_services.replace(/"|{|}|:true/g, '').split(',').join(', ');
+          appt.hair_services = appt.hair_services.replace(/\\|"|{|}|:true/g, '').split(', ').join(', ');
         });
         this.setState({ pendingAppts: result.data })
       })
@@ -59,7 +58,7 @@ class PendingAppts extends React.Component {
         }
         if (key === 'hair_services') {
           let services = details[key];
-          services = services.replace(/"|{|}|:true/g, '').split(', ');
+          services = services.replace(/\\|"|{|}|:true/g, '').split(', ');
           for (let key in services) {
             document.getElementById(key).checked = true;
           }
