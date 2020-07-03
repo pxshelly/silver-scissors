@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { SERVER_URL } from '../../constants.js';
 
 class Header extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/login-status')
+    axios.get(`${SERVER_URL}/login-status`)
       .then((result) => {
         const { data: { loggedIn = false } = {} } = result;
         if (loggedIn) {

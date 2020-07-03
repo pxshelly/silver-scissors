@@ -2,6 +2,7 @@ import React from 'react';
 import ServiceMenu from '../shared/ServiceMenu.jsx';
 import StylistMenu from '../shared/StylistMenu.jsx';
 import axios from 'axios';
+import { SERVER_URL } from '../../constants.js';
 
 class ApptForm extends React.Component {
   constructor(props) {
@@ -96,7 +97,7 @@ class ApptForm extends React.Component {
       data.id = id;
       axios.put(`/appointments?status=approved`, data);
     } else {
-      axios.post('/appointments?status=pending', data)
+      axios.post(`${SERVER_URL}/appointments?status=pending`, data)
         .then(window.location = '/appointment-confirmation')
     }
   }
