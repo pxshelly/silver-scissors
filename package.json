@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --watch",
-    "start": "export SERVER_URL=\"ec2-3-101-65-200.us-west-1.compute.amazonaws.com\" && node server/index.js",
-    "start-dev": "export SERVER_URL=\"http://localhost:3000\" && node server/index.js" 
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
