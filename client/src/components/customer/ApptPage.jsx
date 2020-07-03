@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import UpcomingAppts from './UpcomingAppts.jsx';
+// import UpcomingAppts from './UpcomingAppts.jsx';
 import PendingAppts from './PendingAppts.jsx';
 import PastAppts from './PastAppts.jsx';
 
