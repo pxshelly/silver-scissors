@@ -549,7 +549,7 @@ table {
 }
 
 .service-tables-container td:nth-child(2) {
-  text-align: end;
+  text-align: left;
 }
 
 .service-heading {
