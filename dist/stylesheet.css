@@ -58,7 +58,7 @@ input:focus {
 }
 
 .customer-nav {
-  margin-left: 20vw;
+  margin-left: 22 vw;
 }
 
 nav a {
@@ -218,7 +218,7 @@ button:hover {
 
 .opening-overlay {
   position: absolute;
-  left: 41.5vw;
+  left: 43.5vw;
   bottom: 19%;
   color: white;
   line-height: 1.5;
@@ -546,6 +546,10 @@ legend {
 
 table {
   border-spacing: 0;
+}
+
+.service-tables-container td:nth-child(2) {
+  text-align: end;
 }
 
 .service-heading {
