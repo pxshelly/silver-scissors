@@ -11,7 +11,7 @@ const { setUpPassport, isLoggedIn, shouldSendIndex } = require('./passport');
 const subdomain = require('express-subdomain');
 const router = express.Router();
 const cookieSecret = process.env.COOKIES_EXPIRATION || require('./config').COOKIES_EXPIRATION;
-const { SERVER_URL } = require('../client/src/constants');
+const SERVER_URL = process.env.PRODUCTION_URL || 'localhost:3000';
 
 setUpPassport();
 

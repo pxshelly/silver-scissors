@@ -3,7 +3,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || require('./config').FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || require('./config').FACEBOOK_APP_SECRET;
 const { retrieveUserById, createUser } = require('./models');
-const { SERVER_URL } = require('../client/src/constants');
+const SERVER_URL = process.env.PRODUCTION_URL || 'localhost:3000';
 
 const setUpPassport = () => {
   passport.serializeUser(function (user, done) {
