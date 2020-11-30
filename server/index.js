@@ -11,6 +11,7 @@ const { setUpPassport, isLoggedIn, shouldSendIndex } = require('./passport');
 const subdomain = require('express-subdomain');
 const router = express.Router();
 const cookieSecret = process.env.COOKIES_EXPIRATION || require('./config').COOKIES_EXPIRATION;
+const { SERVER_URL } = require('../client/src/constants');
 
 setUpPassport();
 
@@ -36,8 +37,8 @@ app.use(passport.session());
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: 'http://localhost:3000',
-    failureRedirect: 'http://localhost:3000/login'
+    successRedirect: SERVER_URL,
+    failureRedirect: `${SERVER_URL}/login`
   }));
 
 app.get('/login-status', function (req, res) {
@@ -47,7 +48,7 @@ app.get('/login-status', function (req, res) {
 app.get('/logout', function (req, res) {
   req.logout();
   res.clearCookie('connect.sid', { path: '/' });
-  res.redirect('http://localhost:3000/logged-out');
+  res.redirect(`${SERVER_URL}/logged-out`);
 });
 
 // app endpoints

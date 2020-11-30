@@ -3,6 +3,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || require('./config').FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || require('./config').FACEBOOK_APP_SECRET;
 const { retrieveUserById, createUser } = require('./models');
+const { SERVER_URL } = require('../client/src/constants');
 
 const setUpPassport = () => {
   passport.serializeUser(function (user, done) {
@@ -22,7 +23,7 @@ const setUpPassport = () => {
   passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: `${SERVER_URL}/auth/facebook/callback`
   },
     function (accessToken, refreshToken, profile, done) {
       retrieveUserById(profile.id)
@@ -53,7 +54,7 @@ const isLoggedIn = (req, res, next) => {
     return next();
   }
 
-  res.status(302).send({ redirect: 'http://silverscissors.com:3000/login' });
+  res.status(302).send({ redirect: `${SERVER_URL}/login` });
 };
 
 const shouldSendIndex = (req, res, next) => {
@@ -61,7 +62,7 @@ const shouldSendIndex = (req, res, next) => {
     return next();
   }
 
-  res.redirect('http://localhost.com:3000/login');
+  res.redirect(`${SERVER_URL}/login`);
 };
 
 module.exports = { setUpPassport, isLoggedIn, shouldSendIndex};
