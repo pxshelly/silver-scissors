@@ -1,5 +1,3 @@
-const config = require('../config');
-
 let dbConfig = {};
 try {
   const config = require('../config');
