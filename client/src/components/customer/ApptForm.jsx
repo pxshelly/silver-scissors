@@ -101,7 +101,7 @@ class ApptForm extends React.Component {
       console.log(`${SERVER_URL}appointments?status=pending`);
       console.log(process.env.SERVER_URL);
       axios.post(`${SERVER_URL}appointments?status=pending`, data)
-        // .then(window.location = '/appointment-confirmation')
+        .then(window.location = '/appointment-confirmation')
         .catch(error => console.log(error));
     }
   }
