@@ -21,9 +21,9 @@
   "homepage": "https://github.com/pxshelly/silver-scissors#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-session": "^1.17.0",
     "express-subdomain": "^1.0.5",
     "moment": "^2.24.0",
